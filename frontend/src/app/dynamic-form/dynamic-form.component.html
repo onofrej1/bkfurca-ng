@@ -1,0 +1,35 @@
+<form novalidate (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
+    <div *ngFor="let prop of objectProps" class="form-group">
+        <label [attr.for]="prop">{{ prop.key }}</label>
+
+        <div [ngSwitch]="prop.type">
+            <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.key" [id]="prop.key" [type]="prop.type">
+
+            <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.key" [id]="prop.key"></textarea>
+
+            <div *ngSwitchCase="'select'">
+                <select [formControlName]="prop.key" class="form-control">
+              <option *ngFor="let option of prop.options" [value]="option.value">
+                {{option.label}}     
+              </option>
+            </select>
+            </div>
+
+            <div *ngSwitchCase="'radio'">
+                <label *ngFor="let option of prop.options">
+                  <input
+                    type="radio"
+                    [name]="prop.key"
+                    [formControlName]="prop.key"
+                    [value]="option.value"> 
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <p>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </p>
+
+</form>

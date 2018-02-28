@@ -1,0 +1,44 @@
+<div class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <admin-header></admin-header>
+        <admin-sidebar [models]="models"></admin-sidebar>
+
+        <div class="content-wrapper">
+            <section class="content-header"></section>
+            <section class="content">
+                {{ form | json }}
+
+                <admin-box [header]="model?.title">
+
+                    <table class="table table-striped" *ngIf="!row">
+                        <thead>
+                            <tr class="admin-blue">
+                                <th *ngFor="let fieldName of objectKeys(model?.form || {})">
+                                    {{ fieldName }}
+                                </th>
+                                <th></th>/
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of data">
+                                <td *ngFor="let fieldName of objectKeys(model?.form || {})">
+                                    <span [innerHtml]="row[fieldName]"></span>
+                                </td>
+                                <td>
+                                    <button (click)="setRow(row)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <dynamic-form *ngIf="row" [data]="row" [dataObject]="form" (handleForm)="handleForm($event)"></dynamic-form>
+
+                </admin-box>
+            </section>
+        </div>
+
+        <admin-footer></admin-footer>
+    </div>
+</div>

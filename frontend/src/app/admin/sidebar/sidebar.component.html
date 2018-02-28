@@ -1,0 +1,12 @@
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu tree" data-widget="tree">
+            <li class="header">header</li>
+            <li *ngFor="let model of modelNames">
+                <a (click)="setModel(model)">
+                {{ model }}
+              </a>
+            </li>
+        </ul>
+    </section>
+</aside>

@@ -42,3 +42,36 @@ var connection = mysql.createConnection({
   });
 });*/
 
+getFormx() {
+    return {
+      name: {
+        label: 'Name',
+        value: 'Juri',
+        type: 'text',
+        validation: {
+          required: true
+        }
+      },
+      email: {
+        label: 'Email',
+        value: 'mail',
+        type: 'text',
+        validation: {
+          required: true
+        }
+      },
+      city: {
+        label: 'City',
+        value: '39010',
+        type: 'select',
+        options: [
+          { label: "(choose one)", value: '' },
+          { label: "Bolzano", value: '39100' },
+          { label: "Meltina", value: '39010' },
+          { label: "Appiano", value: '39057' }
+        ],
+      }
+
+    }
+  }
+

@@ -25,19 +25,22 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.crud.getData().subscribe(data => {
+      console.log('get data');
       this.data = data;
     });
 
     this.crud.getFields().subscribe(data => {
+      console.log('get fields');
       this.fields = data;
       this.fieldsNames = Object.keys(data);
-      this.getForm();
+      //this.getForm();
     });
 
     this.crud.getModelName().subscribe(modelName => {
+      console.log('get model name');
       this.modelName = modelName;
       this.model = this.models[modelName];
-      this.row = null;      
+      this.row = null;       
     });
 
     this.models = this.crud.getModels();
@@ -46,18 +49,19 @@ export class AdminComponent implements OnInit {
 
   private getForm() {
     this.form = {}; //zmazat neskor
-    let dbColumns = this.fieldsNames;
+    let dbColumns = this.fieldsNames || [];
     let form = this.model.form || {};
 
     this.form = {...form};
     let order = 1;
-
-    for (let key of dbColumns) {
-      const type = key === "id" ? "hidden" : form[key].type || 'text';
+    console.log('fields', this.fieldsNames);
+    this.fieldsNames.forEach(key => {
+      const type = 'text';
+      //const type = key === "id" ? "hidden" : form[key] && form[key].type || 'text';
       this.form[key] = { type, order, ...form[key] };
       order++;
-      //if(form[key] === 'hidden') delete this.form[key];
-    }
+      if(form[key] === 'remove') delete this.form[key];
+    });
     console.log('form', this.form);
     
   }
@@ -67,48 +71,19 @@ export class AdminComponent implements OnInit {
   }
 
   handleForm(values) {
-    /*this.crud.save(this.modelName, values).subscribe(model => {
-      console.log('saved', model);
-    }, error => console.log('error', error));*/
+    this.crud.save(this.modelName, values).subscribe(model => {
+      this.crud.setModelName(this.modelName);
+      this.row = null;
+    }, error => console.log('error', error));
+
     console.log('handle', values);
   }
 
   setRow(row: any) {
     this.row = row;
+    this.getForm();
   }
 
-  getFormx() {
-    return {
-      name: {
-        label: 'Name',
-        value: 'Juri',
-        type: 'text',
-        validation: {
-          required: true
-        }
-      },
-      email: {
-        label: 'Email',
-        value: 'mail',
-        type: 'text',
-        validation: {
-          required: true
-        }
-      },
-      city: {
-        label: 'City',
-        value: '39010',
-        type: 'select',
-        options: [
-          { label: "(choose one)", value: '' },
-          { label: "Bolzano", value: '39100' },
-          { label: "Meltina", value: '39010' },
-          { label: "Appiano", value: '39057' }
-        ],
-      }
-
-    }
-  }
 }
 
 

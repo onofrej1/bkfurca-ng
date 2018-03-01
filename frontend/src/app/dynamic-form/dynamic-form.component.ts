@@ -1,5 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+
+declare var ClassicEditor: any;
+//declare var CKEDITOR: any;
 
 @Component({
   selector: 'dynamic-form',
@@ -13,10 +19,25 @@ export class DynamicFormComponent implements OnInit {
   form: FormGroup;
   objectProps;
 
+  @ViewChild('editor') myTextArea: ElementRef;
+
+
   @Output()
   handleForm = new EventEmitter();
 
-  constructor() {
+  constructor(private sanitizer: DomSanitizer) {
+
+  }
+  
+  ngAfterViewInit() {
+    /*ClassicEditor
+      .create(document.querySelector('#editor'))
+      .then(editor => {
+        console.log(editor);
+      })
+      .catch(error => {
+        console.error('error editor', error);
+      });*/
   }
 
   sortDataObject() {
@@ -35,11 +56,12 @@ export class DynamicFormComponent implements OnInit {
       .map(prop => {
         return Object.assign({}, { key: prop }, this.dataObject[prop]);
       });
-  
+
     const formGroup = {};
 
     for (let prop of Object.keys(this.dataObject)) {
-      const value = this.dataObject[prop].value || this.data[prop] || '';
+      let value = this.dataObject[prop].value || this.data[prop] || '';
+      //value = this.sanitizer.bypassSecurityTrustHtml(value);
       formGroup[prop] = new FormControl(value, this.mapValidators(this.dataObject[prop].validation));
     }
 
@@ -49,7 +71,6 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit() {
 
     // setup the form
-
   }
 
   private mapValidators(validators) {

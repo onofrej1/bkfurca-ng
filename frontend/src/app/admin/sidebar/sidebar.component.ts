@@ -17,7 +17,7 @@ export class AdminSidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.modelNames = Object.keys(this.models));
+    this.modelNames = Object.keys(this.models);
   }
 
   setModel(modelName: string) {

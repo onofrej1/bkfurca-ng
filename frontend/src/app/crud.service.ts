@@ -15,8 +15,8 @@ export class CrudService {
 
   setModelName(modelName: string) {
     this.modelName.next(modelName);
-    this.setData(modelName);
-    this.setFields(modelName);
+    this.fetchData(modelName);
+    this.fetchFields(modelName);
   }
 
   getModelName(): Observable<string> {
@@ -35,12 +35,12 @@ export class CrudService {
     return this.fields.asObservable();
   }
 
-  public setFields(modelName: string) {
+  public fetchFields(modelName: string) {
     const url: string = 'http://localhost:1337/api/' + modelName +'/fields';
     return this.http.get<any[]>(url).subscribe(data => this.fields.next(data));
   }
 
-  public setData(modelName: string) {
+  public fetchData(modelName: string) {
     const url: string = 'http://localhost:1337/api/' + modelName;
     return this.http.get<any[]>(url).subscribe(data => this.data.next(data));
   }

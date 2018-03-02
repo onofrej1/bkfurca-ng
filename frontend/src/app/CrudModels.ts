@@ -72,7 +72,7 @@ const Page = {
       order: 8,
     },
     body: {
-      type: "textarea",
+      type: "editor",
       label: "Body",
       rows: 8,
       order: 3,

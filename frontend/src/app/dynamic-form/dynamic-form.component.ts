@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+let ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
 
-declare var ClassicEditor: any;
+//declare var ClassicEditor: any;
 //declare var CKEDITOR: any;
 
 @Component({
@@ -30,14 +31,21 @@ export class DynamicFormComponent implements OnInit {
   }
   
   ngAfterViewInit() {
-    /*ClassicEditor
-      .create(document.querySelector('#editor'))
+    document.querySelectorAll('.editor').forEach(el => {
+      let ed = ClassicEditor
+      .create(el)
       .then(editor => {
+        editor.document.on('change', (eventInfo, name, value, oldValue) => {
+          console.log(editor.getData());
+          this.form.patchValue({body: editor.getData()});          
+        });
         console.log(editor);
       })
       .catch(error => {
-        console.error('error editor', error);
-      });*/
+        console.error('error', error);
+      });      
+    })
+    
   }
 
   sortDataObject() {

@@ -11,20 +11,25 @@ var auth = require("./routes/files");
 var api = require("./routes/api");
 let verifyToken = require("./middlewares/verifyToken");
 let permission = require("./middlewares/permission");
+var cors = require('cors')
+
 
 var app = express();
 
-app.use(function(req, res, next) {
-  //if ('OPTIONS' == req.method) {
+app.use(cors())
+
+
+/*app.use(function(req, res, next) {
+  if ('OPTIONS' == req.method) {
    res.header("Access-Control-Allow-Origin", "*");
    res.header('Access-Control-Allow-Methods', '*');
    res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
+   //next();
+   res.send(200);
+ } else {
    next();
-   //res.send(200);
- /*} else {
-   next();
- }*/
-});
+ }
+});*/
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

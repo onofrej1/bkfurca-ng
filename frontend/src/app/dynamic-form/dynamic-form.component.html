@@ -8,6 +8,8 @@
 
                 <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.key" [id]="prop.key"></textarea>
 
+                <textarea *ngSwitchCase="'editor'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.key" [id]="prop.key"></textarea>
+
                 <div *ngSwitchCase="'select'">
                     <select [formControlName]="prop.key" class="form-control">
                         <option *ngFor="let option of prop.options" [value]="option.value">
@@ -32,8 +34,7 @@
             <input [formControlName]="prop.key" [id]="prop.key" [type]="'hidden'">
         </ng-template>
 
-    </ng-container>
-    <textarea #editor id="editor" name="content">bbb</textarea>
+    </ng-container>    
 
     <p>
         <button type="submit" class="btn btn-primary">Save</button>

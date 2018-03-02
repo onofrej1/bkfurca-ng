@@ -47,7 +47,7 @@ export class AdminComponent implements OnInit {
     console.log(this.models);
   }
 
-  private getForm() {
+  private getForm(row) {
     this.form = {}; //zmazat neskor
     let dbColumns = this.fieldsNames || [];
     let form = this.model.form || {};
@@ -57,8 +57,15 @@ export class AdminComponent implements OnInit {
     console.log('fields', this.fieldsNames);
     this.fieldsNames.forEach(key => {
       const type = 'text';
+      let value = row[key];
+      if(form[key] && form[key].type == 'relation') {
+        console.log(form[key].resourceTable);
+        this.crud.fetchOptions(form[key].resourceTable).subscribe(data => {
+          console.log('options', data);
+        })
+      }
       //const type = key === "id" ? "hidden" : form[key] && form[key].type || 'text';
-      this.form[key] = { type, order, ...form[key] };
+      this.form[key] = { type, value, order, ...form[key] };
       order++;
       if(form[key] === 'remove') delete this.form[key];
     });
@@ -81,7 +88,7 @@ export class AdminComponent implements OnInit {
 
   setRow(row: any) {
     this.row = row;
-    this.getForm();
+    this.getForm(row);
   }
 
 }

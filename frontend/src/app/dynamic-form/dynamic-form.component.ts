@@ -14,7 +14,7 @@ declare var ClassicEditor: any;
 })
 export class DynamicFormComponent implements OnInit {
 
-  @Input() data;
+  //@Input() data;
   @Input() dataObject;
   form: FormGroup;
   objectProps;
@@ -60,7 +60,8 @@ export class DynamicFormComponent implements OnInit {
     const formGroup = {};
 
     for (let prop of Object.keys(this.dataObject)) {
-      let value = this.dataObject[prop].value || this.data[prop] || '';
+      //let value = this.dataObject[prop].value || this.data[prop] || '';
+      let value = this.dataObject[prop].value || '';
       //value = this.sanitizer.bypassSecurityTrustHtml(value);
       formGroup[prop] = new FormControl(value, this.mapValidators(this.dataObject[prop].validation));
     }

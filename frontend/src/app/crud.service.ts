@@ -26,7 +26,7 @@ export class CrudService {
   public getModels() {
     return models;
   }
-
+  
   public getData(): Observable<any[]> {
     return this.data.asObservable();
   }
@@ -38,6 +38,11 @@ export class CrudService {
   public fetchFields(modelName: string) {
     const url: string = 'http://localhost:1337/api/' + modelName +'/fields';
     return this.http.get<any[]>(url).subscribe(data => this.fields.next(data));
+  }
+
+  public fetchOptions(modelName: string) {
+    const url: string = 'http://localhost:1337/api/' + modelName;
+    return this.http.get<any[]>(url);
   }
 
   public fetchData(modelName: string) {

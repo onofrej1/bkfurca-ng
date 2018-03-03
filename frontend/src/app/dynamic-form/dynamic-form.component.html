@@ -11,7 +11,8 @@
                 <textarea *ngSwitchCase="'editor'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.key" [id]="prop.key"></textarea>
 
                 <div *ngSwitchCase="'select'">
-                    <select [formControlName]="prop.key" class="form-control">
+                    options:{{ prop | json }}
+                    <select [formControlName]="prop.key" class="form-control" multiple="multiple">
                         <option *ngFor="let option of prop.options" [value]="option.value">
                             {{option.label}}     
                         </option>
@@ -34,7 +35,7 @@
             <input [formControlName]="prop.key" [id]="prop.key" [type]="'hidden'">
         </ng-template>
 
-    </ng-container>    
+    </ng-container>
 
     <p>
         <button type="submit" class="btn btn-primary">Save</button>

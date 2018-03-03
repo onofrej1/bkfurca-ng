@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('furca2', 'root', 'pibacek', {dialect: 'mysql', logging: false});
+var sequelize = new Sequelize('furca2', 'root', 'root', {dialect: 'mysql', logging: false});
 
 var models = [
   'ArticleTag',

@@ -24,9 +24,11 @@ const Article = {
       type: 'datetime'
     },
     tags: {
-      type: 'pivotRelation',
+      type: 'relation',
+      //type: 'pivotRelation',
       resourceTable: 'tag',
       show: 'title',
+      label: 'title'
     }
   },
   list: {

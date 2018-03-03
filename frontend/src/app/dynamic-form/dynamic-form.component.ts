@@ -31,15 +31,11 @@ export class DynamicFormComponent implements OnInit {
   }
   
   ngAfterViewInit() {
-    document.querySelectorAll('.editor').forEach(el => {
-      let ed = ClassicEditor
-      .create(el)
-      .then(editor => {
+    Array.from(document.querySelectorAll('.editor')).forEach(el => {
+      ClassicEditor.create(el).then(editor => {
         editor.document.on('change', (eventInfo, name, value, oldValue) => {
-          console.log(editor.getData());
           this.form.patchValue({body: editor.getData()});          
         });
-        console.log(editor);
       })
       .catch(error => {
         console.error('error', error);

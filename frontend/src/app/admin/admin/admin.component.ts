@@ -12,12 +12,13 @@ export class AdminComponent implements OnInit {
   crud: CrudService;
   data: any[];
   fields: any[];
+  options: {};
   fieldsNames: string[];
   models: {};
   modelName: string;
   model;
   row: null;
-  form: any;
+  form: any = null;
 
   constructor(crud: CrudService) {
     this.crud = crud;
@@ -25,50 +26,58 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {
     this.crud.getData().subscribe(data => {
-      console.log('get data');
       this.data = data;
     });
 
     this.crud.getFields().subscribe(data => {
-      console.log('get fields');
       this.fields = data;
       this.fieldsNames = Object.keys(data);
       //this.getForm();
     });
 
     this.crud.getModelName().subscribe(modelName => {
-      console.log('get model name');
       this.modelName = modelName;
       this.model = this.models[modelName];
       this.row = null;       
     });
 
     this.models = this.crud.getModels();
-    console.log(this.models);
   }
 
   private getForm(row) {
-    this.form = {}; //zmazat neskor
+    //this.form = {}; //zmazat neskor
     let dbColumns = this.fieldsNames || [];
-    let form = this.model.form || {};
+    let formModel = this.model.form || {};
 
-    this.form = {...form};
+    //let form = {...formModel};
+    let form = {};
+    console.log(form);
     let order = 1;
     console.log('fields', this.fieldsNames);
-    this.fieldsNames.forEach(key => {
-      const type = 'text';
-      let value = row[key];
-      if(form[key] && form[key].type == 'relation') {
-        console.log(form[key].resourceTable);
-        this.crud.fetchOptions(form[key].resourceTable).subscribe(data => {
+    for(let key in formModel) {
+
+      let type = 'text';
+      let value = row[key] instanceof Array ? row[key].map(v => v.id) : row[key];
+      console.log(key);
+      
+      if(formModel[key] && formModel[key].type == 'relation') {
+        //console.log(form[key].resourceTable);
+        this.crud.fetchOptions(formModel[key].resourceTable).subscribe(data => {
           console.log('options', data);
-        })
+          let options = data.map(data => { return {value: data.id, label: data.title}});
+          form[key] = {...form[key], options};
+          this.form = {...this.form, key: form[key]};
+          //this.options[key] = data;
+        });
+        type = 'select';
       }
       //const type = key === "id" ? "hidden" : form[key] && form[key].type || 'text';
-      this.form[key] = { type, value, order, ...form[key] };
+      form[key] = { value, order, ...formModel[key], type };
       order++;
-      if(form[key] === 'remove') delete this.form[key];
-    });
+      if(formModel[key] === 'remove') delete form[key];
+    }
+
+    this.form = form;
     console.log('form', this.form);
     
   }

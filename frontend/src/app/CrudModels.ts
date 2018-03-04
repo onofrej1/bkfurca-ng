@@ -17,6 +17,12 @@ const User = {
 const Article = {
   title: 'Articles',
   form: {
+    title: {
+      type: 'text'
+    },
+    author: {
+      type: 'text'
+    },
     content: {
       type: 'ckeditor'
     },
@@ -27,6 +33,7 @@ const Article = {
       type: 'relation',
       //type: 'pivotRelation',
       resourceTable: 'tag',
+      multiple: true,
       show: 'title',
       label: 'title'
     }
@@ -67,22 +74,14 @@ const MenuItem = {
 
 const Page = {
   title: "Pages",
-  form: {
-    title: {
-      type: 'text',
-      label: 'title',
-      order: 8,
-    },
-    body: {
-      type: "editor",
-      label: "Body",
-      rows: 8,
-      order: 3,
-    },
-  },
-  list: {
-    body: 'hidden',
-  }
+  form: [
+    { label: 'title', name: 'title', type: 'text'},
+    { type: "editor", label: "Body", rows: 8, name: 'body'},
+  ],
+  list: [
+    {field: 'title', label: 'Title', render: (row) => `<div>${row.title} xx</div>`},
+    {field: 'body', label: 'Body'}
+  ],
 };
 
 const Hamburg = {

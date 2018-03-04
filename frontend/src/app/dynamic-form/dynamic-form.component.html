@@ -1,18 +1,18 @@
 <form novalidate (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
-    <ng-container *ngFor="let prop of objectProps">
-        <div class="form-group" *ngIf="!prop.hidden && prop.key != 'id' else hidden">
-            <label [attr.for]="prop.key">{{ prop.key }}</label>
+    <ng-container *ngFor="let prop of dataObject">
+        <div class="form-group" *ngIf="!prop.hidden && prop.name != 'id' else hidden">
+            <label [attr.for]="prop.name">{{ prop.label }}</label>
 
             <div [ngSwitch]="prop.type">
-                <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.key" [id]="prop.key" [type]="prop.type">
+                <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.name" [id]="prop.name" [type]="prop.type">
 
-                <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.key" [id]="prop.key"></textarea>
+                <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
-                <textarea *ngSwitchCase="'editor'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.key" [id]="prop.key"></textarea>
+                <textarea *ngSwitchCase="'editor'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
                 <div *ngSwitchCase="'select'">
-                    options:{{ prop | json }}
-                    <select [formControlName]="prop.key" class="form-control" multiple="multiple">
+
+                    <select [formControlName]="prop.name" class="form-control" multiple>
                         <option *ngFor="let option of prop.options" [value]="option.value">
                             {{option.label}}     
                         </option>
@@ -23,8 +23,8 @@
                     <label *ngFor="let option of prop.options">
                   <input
                     type="radio"
-                    [name]="prop.key"
-                    [formControlName]="prop.key"
+                    [name]="prop.name"
+                    [formControlName]="prop.name"
                     [value]="option.value"> 
                 </label>
                 </div>
@@ -32,7 +32,7 @@
         </div>
 
         <ng-template #hidden>
-            <input [formControlName]="prop.key" [id]="prop.key" [type]="'hidden'">
+            <input [formControlName]="prop.name" [id]="prop.name" [type]="'hidden'">
         </ng-template>
 
     </ng-container>

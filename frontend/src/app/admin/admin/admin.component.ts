@@ -18,7 +18,8 @@ export class AdminComponent implements OnInit {
   modelName: string;
   model;
   row: null;
-  form: any = null;
+  form: Object[] = [];
+  list: Object[] = [];
 
   constructor(crud: CrudService) {
     this.crud = crud;
@@ -38,52 +39,44 @@ export class AdminComponent implements OnInit {
     this.crud.getModelName().subscribe(modelName => {
       this.modelName = modelName;
       this.model = this.models[modelName];
-      this.row = null;       
+      this.row = null;
+      this.getList();
     });
 
     this.models = this.crud.getModels();
   }
 
   private getForm(row) {
-    //this.form = {}; //zmazat neskor
-    let dbColumns = this.fieldsNames || [];
-    let formModel = this.model.form || {};
+    this.form = [];
+    let field;
 
-    //let form = {...formModel};
-    let form = {};
-    console.log(form);
-    let order = 1;
-    console.log('fields', this.fieldsNames);
-    for(let key in formModel) {
-
-      let type = 'text';
-      let value = row[key] instanceof Array ? row[key].map(v => v.id) : row[key];
-      console.log(key);
-      
-      if(formModel[key] && formModel[key].type == 'relation') {
-        //console.log(form[key].resourceTable);
-        this.crud.fetchOptions(formModel[key].resourceTable).subscribe(data => {
-          console.log('options', data);
-          let options = data.map(data => { return {value: data.id, label: data.title}});
-          form[key] = {...form[key], options};
-          this.form = {...this.form, key: form[key]};
-          //this.options[key] = data;
-        });
-        type = 'select';
+    for (let prop of this.model.form) {
+      let name = prop.name;
+      let value = row[name] instanceof Array ? row[name].map(v => v.id) : row[name];
+      field = { value, ...prop };
+      if (prop && prop.type == 'relation') {
+        //this.fetchOptions(prop, prop.resourceTable);
+        field.type = 'select';
       }
-      //const type = key === "id" ? "hidden" : form[key] && form[key].type || 'text';
-      form[key] = { value, order, ...formModel[key], type };
-      order++;
-      if(formModel[key] === 'remove') delete form[key];
+      
+      console.log(field);
+      this.form.push(field);
     }
 
-    this.form = form;
+    //this.form = form;
     console.log('form', this.form);
-    
+  }
+
+  fetchOptions(field, resource) {
+    this.crud.fetchOptions(resource).subscribe(data => {
+      let options = data.map(data => { return { value: data.id, label: data[field.show] } });
+      //let field = { ...this.form[field.field], options };
+      //this.form = { ...this.form, [key]: field };
+    });
   }
 
   getList() {
-
+    this.list = this.model.list || [];
   }
 
   handleForm(values) {
@@ -101,5 +94,3 @@ export class AdminComponent implements OnInit {
   }
 
 }
-
-

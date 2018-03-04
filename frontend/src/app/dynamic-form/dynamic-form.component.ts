@@ -18,7 +18,6 @@ export class DynamicFormComponent implements OnInit {
   //@Input() data;
   @Input() dataObject;
   form: FormGroup;
-  objectProps;
 
   @ViewChild('editor') myTextArea: ElementRef;
 
@@ -44,37 +43,18 @@ export class DynamicFormComponent implements OnInit {
     
   }
 
-  sortDataObject() {
-    this.dataObject = Object
-      .keys(this.dataObject)
-      .sort((a, b) => this.dataObject[a].order - this.dataObject[b].order)
-      .reduce((_sortedObj, key) => ({
-        ..._sortedObj,
-        [key]: this.dataObject[key]
-      }), {});
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    this.sortDataObject();
-    this.objectProps = Object.keys(this.dataObject)
-      .map(prop => {
-        return Object.assign({}, { key: prop }, this.dataObject[prop]);
-      });
-
     const formGroup = {};
 
-    for (let prop of Object.keys(this.dataObject)) {
+    for (let prop of this.dataObject) {
       //let value = this.dataObject[prop].value || this.data[prop] || '';
-      let value = this.dataObject[prop].value || '';
-      //value = this.sanitizer.bypassSecurityTrustHtml(value);
-      formGroup[prop] = new FormControl(value, this.mapValidators(this.dataObject[prop].validation));
+      formGroup[prop.name] = new FormControl(prop.value || '', this.mapValidators(prop.validation));
     }
 
     this.form = new FormGroup(formGroup);
   }
 
   ngOnInit() {
-
     // setup the form
   }
 

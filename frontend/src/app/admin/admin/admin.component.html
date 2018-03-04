@@ -6,23 +6,24 @@
         <div class="content-wrapper">
             <section class="content-header"></section>
             <section class="content">
-               
 
                 <admin-box [header]="model?.title">
-
                     <table class="table table-striped" *ngIf="!row">
                         <thead>
                             <tr class="admin-blue">
-                                <th *ngFor="let fieldName of objectKeys(model?.form || {})">
-                                    {{ fieldName }}
+                                <th *ngFor="let field of list">
+                                    {{ field.label }}
                                 </th>
                                 <th></th>/
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let row of data">
-                                <td *ngFor="let fieldName of objectKeys(model?.form || {})">
-                                    <span [innerHtml]="row[fieldName]"></span>
+                                <td *ngFor="let field of list">
+                                    <span *ngIf="field.render else fieldTemplate" [innerHtml]="field.render(row)"></span>
+                                    <ng-template #fieldTemplate>
+                                        <span [innerHtml]="row[field.field]"></span>
+                                    </ng-template>
                                 </td>
                                 <td>
                                     <button (click)="setRow(row)">

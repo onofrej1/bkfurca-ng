@@ -1,7 +1,7 @@
 <form novalidate (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
     <ng-container *ngFor="let prop of dataObject">
-        <div class="form-group" *ngIf="!prop.hidden && prop.name != 'id' else hidden">
-            <label [attr.for]="prop.name">{{ prop.label }}</label>
+        <div class="form-group" *ngIf="prop.type != 'hidden' else hidden">
+            <label [attr.for]="prop.name">{{ prop.label || prop.name }}</label>
 
             <div [ngSwitch]="prop.type">
                 <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.name" [id]="prop.name" [type]="prop.type">

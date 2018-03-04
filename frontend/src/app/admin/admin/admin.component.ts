@@ -47,7 +47,7 @@ export class AdminComponent implements OnInit {
   }
 
   private getForm(row) {
-    this.form = [];
+    this.form = [{name: 'id', type: 'hidden'}];
     let field;
 
     for (let prop of this.model.form) {
@@ -55,7 +55,7 @@ export class AdminComponent implements OnInit {
       let value = row[name] instanceof Array ? row[name].map(v => v.id) : row[name];
       field = { value, ...prop };
       if (prop && prop.type == 'relation') {
-        //this.fetchOptions(prop, prop.resourceTable);
+        this.fetchOptions(prop);
         field.type = 'select';
       }
       
@@ -67,9 +67,12 @@ export class AdminComponent implements OnInit {
     console.log('form', this.form);
   }
 
-  fetchOptions(field, resource) {
-    this.crud.fetchOptions(resource).subscribe(data => {
+  fetchOptions(field) {
+    this.crud.fetchOptions(field.resourceTable).subscribe(data => {
       let options = data.map(data => { return { value: data.id, label: data[field.show] } });
+      console.log(options);
+      let replaced = {...this.form[field.name], options};
+      this.form = this.form.map(f => f.name == replaced.name ? replaced : f)
       //let field = { ...this.form[field.field], options };
       //this.form = { ...this.form, [key]: field };
     });

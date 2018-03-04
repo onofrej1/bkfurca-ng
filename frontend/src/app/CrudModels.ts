@@ -16,33 +16,21 @@ const User = {
 
 const Article = {
   title: 'Articles',
-  form: {
-    title: {
-      type: 'text'
-    },
-    author: {
-      type: 'text'
-    },
-    content: {
-      type: 'ckeditor'
-    },
-    created_at: {
-      type: 'datetime'
-    },
-    tags: {
-      type: 'relation',
-      //type: 'pivotRelation',
-      resourceTable: 'tag',
-      multiple: true,
-      show: 'title',
-      label: 'title'
-    }
-  },
-  list: {
-    
-    content: 'hidden',
-    source: 'hidden',
-  }
+  form: [
+    {name: 'title', type: 'text'},
+    {name: 'author', type: 'text'},
+    {name: 'content', type: 'editor'},
+    {
+      name: 'tags', 
+      type: 'relation', 
+      resourceTable: 'tag', 
+      multiple: true, 
+      show: 'title', 
+      label: 'Tags'},
+  ],
+  list: [
+    {field: 'title', label: 'Title'},
+  ]
 }
 
 const MenuItem = {

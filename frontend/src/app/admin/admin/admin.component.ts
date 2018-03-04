@@ -18,8 +18,8 @@ export class AdminComponent implements OnInit {
   modelName: string;
   model;
   row: null;
-  form: Object[] = [];
-  list: Object[] = [];
+  form = [];
+  list = [];
 
   constructor(crud: CrudService) {
     this.crud = crud;
@@ -47,7 +47,7 @@ export class AdminComponent implements OnInit {
   }
 
   private getForm(row) {
-    this.form = [{name: 'id', type: 'hidden'}];
+    this.form = [{name: 'id', value: row.id, type: 'hidden'}];
     let field;
 
     for (let prop of this.model.form) {
@@ -56,25 +56,18 @@ export class AdminComponent implements OnInit {
       field = { value, ...prop };
       if (prop && prop.type == 'relation') {
         this.fetchOptions(prop);
-        field.type = 'select';
-      }
-      
-      console.log(field);
+        field.type = 'checklist';
+      }    
       this.form.push(field);
     }
 
-    //this.form = form;
     console.log('form', this.form);
   }
 
   fetchOptions(field) {
     this.crud.fetchOptions(field.resourceTable).subscribe(data => {
       let options = data.map(data => { return { value: data.id, label: data[field.show] } });
-      console.log(options);
-      let replaced = {...this.form[field.name], options};
-      this.form = this.form.map(f => f.name == replaced.name ? replaced : f)
-      //let field = { ...this.form[field.field], options };
-      //this.form = { ...this.form, [key]: field };
+      this.form = this.form.map(f => f.name == field.name ? {...f, options} : f);
     });
   }
 

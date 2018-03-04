@@ -52,6 +52,7 @@ export class CrudService {
 
   public save(modelName: string, model: any) {
     let method = model.id ? 'put' : 'post';
+    console.log(model);
     let param = model.id ? '/'+model.id : ''; 
     const url: string = 'http://localhost:1337/api/' + modelName + param;
     return this.http[method](url, model);

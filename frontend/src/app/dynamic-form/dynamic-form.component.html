@@ -11,7 +11,6 @@
                 <textarea *ngSwitchCase="'editor'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
                 <div *ngSwitchCase="'select'">
-
                     <select [formControlName]="prop.name" class="form-control" multiple>
                         <option *ngFor="let option of prop.options" [value]="option.value">
                             {{option.label}}     
@@ -21,15 +20,34 @@
 
                 <div *ngSwitchCase="'radio'">
                     <label *ngFor="let option of prop.options">
-                  <input
-                    type="radio"
-                    [name]="prop.name"
-                    [formControlName]="prop.name"
-                    [value]="option.value"> 
-                </label>
+                        <input
+                        type="radio"
+                        [name]="prop.name"
+                        [formControlName]="prop.name"
+                        [value]="option.value"> 
+                    </label>
                 </div>
             </div>
         </div>
+
+
+        <div class="checkbox" *ngIf="prop.type == 'checklist'">
+            <p>
+                <strong>{{ prop.label }}</strong>
+            </p>
+            <label class="col-md-4" *ngFor="let option of prop.options">
+                <input
+                    type="checkbox"
+                    [name]="prop.name"
+                    [formControlName]="prop.name"
+                    class="form-check-input"
+                    [value]="option.value"
+                    [checked]="prop.value.indexOf(option.value) !== -1"
+                />
+                {{ option.label }}
+            </label>
+        </div>
+
 
         <ng-template #hidden>
             <input [formControlName]="prop.name" [id]="prop.name" [type]="'hidden'">

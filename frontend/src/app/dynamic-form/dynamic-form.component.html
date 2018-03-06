@@ -33,18 +33,18 @@
 
         <div class="checkbox" *ngIf="prop.type == 'checklist'">
             <p>
-                <strong>{{ prop.label }}</strong>
+                <strong>{{ prop.label }} - {{ prop.value|json }}</strong>
             </p>
-            <label class="col-md-4" *ngFor="let option of prop.options">
+            <label class="col-md-4" *ngFor="let option of form.controls.tags.controls; let i = index">
                 <input
                     type="checkbox"
-                    [name]="prop.name"
-                    [formControlName]="prop.name"
+                    [name]="i"
+                    [formControl]="option"
                     class="form-check-input"
-                    [value]="option.value"
-                    [checked]="prop.value.indexOf(option.value) !== -1"
+                    [value]="option.value.value"
+                    [checked]="prop.value.indexOf(option.value.value) !== -1"
                 />
-                {{ option.label }}
+                {{ option.value.label }}
             </label>
         </div>
 

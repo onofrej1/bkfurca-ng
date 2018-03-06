@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -28,30 +28,46 @@ export class DynamicFormComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) {
 
   }
-  
+
   ngAfterViewInit() {
     Array.from(document.querySelectorAll('.editor')).forEach(el => {
       ClassicEditor.create(el).then(editor => {
         editor.document.on('change', (eventInfo, name, value, oldValue) => {
-          this.form.patchValue({body: editor.getData()});          
+          this.form.patchValue({ body: editor.getData() });
         });
       })
-      .catch(error => {
-        console.error('error', error);
-      });      
+        .catch(error => {
+          console.error('error', error);
+        });
     })
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
     const formGroup = {};
 
     for (let prop of this.dataObject) {
-      //let value = this.dataObject[prop].value || this.data[prop] || '';
-      formGroup[prop.name] = new FormControl(prop.value || '', this.mapValidators(prop.validation));
+      if (prop.type == 'checklist') {
+        if(!prop.options) {
+          formGroup[prop.name] = new FormArray([]);
+        } else {
+        let controls = [];
+        for (let option of prop.options) {
+          //console.log(option);
+          controls.push(new FormControl(option));
+        }
+        const arr = new FormArray(controls);
+        formGroup[prop.name] = arr;
+        console.log('opt', prop.options);
+        }
+      } else {
+        //let value = this.dataObject[prop].value || this.data[prop] || '';
+        formGroup[prop.name] = new FormControl(prop.value || '', this.mapValidators(prop.validation));
+      }
     }
 
     this.form = new FormGroup(formGroup);
+    console.log('form', this.form);
   }
 
   ngOnInit() {

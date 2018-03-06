@@ -56,6 +56,7 @@ export class AdminComponent implements OnInit {
       field = { value, ...prop };
       if (prop && prop.type == 'relation') {
         this.fetchOptions(prop);
+        //field.options = [{value: 2, label: 'aaa'}, {value: 4, label: 'bbb'}];
         field.type = 'checklist';
       }    
       this.form.push(field);

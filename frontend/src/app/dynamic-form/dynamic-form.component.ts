@@ -15,12 +15,8 @@ let ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
 })
 export class DynamicFormComponent implements OnInit {
 
-  //@Input() data;
   @Input() dataObject;
   form: FormGroup;
-
-  @ViewChild('editor') myTextArea: ElementRef;
-
 
   @Output()
   handleForm = new EventEmitter();
@@ -30,17 +26,20 @@ export class DynamicFormComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.initCkeditorInputs();
+  }
+
+  initCkeditorInputs() {
     Array.from(document.querySelectorAll('.editor')).forEach(el => {
       ClassicEditor.create(el).then(editor => {
         editor.document.on('change', (eventInfo, name, value, oldValue) => {
-          this.form.patchValue({ body: editor.getData() });
+          this.form.patchValue({ [editor.element.id]: editor.getData() });
         });
       })
         .catch(error => {
           console.error('error', error);
         });
     })
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -48,26 +47,25 @@ export class DynamicFormComponent implements OnInit {
 
     for (let prop of this.dataObject) {
       if (prop.type == 'checklist') {
-        if(!prop.options) {
-          formGroup[prop.name] = new FormArray([]);
-        } else {
-        let controls = [];
-        for (let option of prop.options) {
-          //console.log(option);
-          controls.push(new FormControl(option));
-        }
-        const arr = new FormArray(controls);
-        formGroup[prop.name] = arr;
-        console.log('opt', prop.options);
-        }
+        let controls = this.createOptionControls(prop);
+        formGroup[prop.name] = new FormArray(controls);
       } else {
-        //let value = this.dataObject[prop].value || this.data[prop] || '';
         formGroup[prop.name] = new FormControl(prop.value || '', this.mapValidators(prop.validation));
       }
     }
 
     this.form = new FormGroup(formGroup);
     console.log('form', this.form);
+  }
+
+  createOptionControls(prop) {
+    let options = prop.options || [];
+    let controls = [];
+    for (let option of options) {
+      let value = prop.value && prop.value.indexOf(option.value) !== -1;
+      controls.push(new FormControl(value));
+    }
+    return controls;
   }
 
   ngOnInit() {
@@ -91,8 +89,23 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onSubmit(values) {
+    for (let key in values) {
+      // upravit
+      if (values[key] instanceof Array && values[key].every(v => typeof v === 'boolean')) {
+        values[key] = this.getOptionValues(key, values);
+      }
+    }
     //console.log(values);
     this.handleForm.emit(values);
+  }
+
+  getOptionValues(key, values) {
+    let obj = this.dataObject.find(obj => obj.name == key);
+    let options = [];
+    values[key].forEach(function (value, i) {
+      value ? options.push(obj.options[i].value) : null;
+    })
+    return options;
   }
 
 }

@@ -22,7 +22,6 @@
                     <label *ngFor="let option of prop.options">
                         <input
                         type="radio"
-                        [name]="prop.name"
                         [formControlName]="prop.name"
                         [value]="option.value"> 
                     </label>
@@ -35,16 +34,13 @@
             <p>
                 <strong>{{ prop.label }} - {{ prop.value|json }}</strong>
             </p>
-            <label class="col-md-4" *ngFor="let option of form.controls.tags.controls; let i = index">
+            <label class="col-md-4" *ngFor="let ctrl of form.controls[prop.name].controls; let i = index">
                 <input
                     type="checkbox"
-                    [name]="i"
-                    [formControl]="option"
+                    [formControl]="ctrl"
                     class="form-check-input"
-                    [value]="option.value.value"
-                    [checked]="prop.value.indexOf(option.value.value) !== -1"
                 />
-                {{ option.value.label }}
+                {{ prop.options[i].label }}
             </label>
         </div>
 

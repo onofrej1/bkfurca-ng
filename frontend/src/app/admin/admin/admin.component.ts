@@ -6,88 +6,21 @@ import { CrudService } from './../../crud.service';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
-
-  objectKeys = Object.keys;
-  crud: CrudService;
-  data: any[];
-  fields: any[];
-  options: {};
-  fieldsNames: string[];
+export class AdminComponent {
   models: {};
-  modelName: string;
-  model;
-  row: null;
-  form = [];
-  list = [];
+  components = [];
+  crud: CrudService;
 
   constructor(crud: CrudService) {
     this.crud = crud;
   }
 
   ngOnInit() {
-    this.crud.getData().subscribe(data => {
-      this.data = data;
-    });
-
-    this.crud.getFields().subscribe(data => {
-      this.fields = data;
-      this.fieldsNames = Object.keys(data);
-      //this.getForm();
-    });
-
-    this.crud.getModelName().subscribe(modelName => {
-      this.modelName = modelName;
-      this.model = this.models[modelName];
-      this.row = null;
-      this.getList();
-    });
-
     this.models = this.crud.getModels();
-  }
-
-  private getForm(row) {
-    this.form = [{name: 'id', value: row.id, type: 'hidden'}];
-    let field;
-
-    for (let prop of this.model.form) {
-      let name = prop.name;
-      let value = row[name] instanceof Array ? row[name].map(v => v.id) : row[name];
-      field = { value, ...prop };
-      if (prop && prop.type == 'relation') {
-        this.fetchOptions(prop);
-        //field.options = [{value: 2, label: 'aaa'}, {value: 4, label: 'bbb'}];
-        field.type = 'checklist';
-      }    
-      this.form.push(field);
-    }
-
-    console.log('form', this.form);
-  }
-
-  fetchOptions(field) {
-    this.crud.fetchOptions(field.resourceTable).subscribe(data => {
-      let options = data.map(data => { return { value: data.id, label: data[field.show] } });
-      this.form = this.form.map(f => f.name == field.name ? {...f, options} : f);
-    });
-  }
-
-  getList() {
-    this.list = this.model.list || [];
-  }
-
-  handleForm(values) {
-    this.crud.save(this.modelName, values).subscribe(model => {
-      this.crud.setModelName(this.modelName);
-      this.row = null;
-    }, error => console.log('error', error));
-
-    console.log('handle', values);
-  }
-
-  setRow(row: any) {
-    this.row = row;
-    this.getForm(row);
+    this.components = [
+      {component: 'app-home', menu: 'Home'}, 
+      {component: 'admin-crud', menu: 'Crud'}
+    ];
   }
 
 }

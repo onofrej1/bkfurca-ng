@@ -29,7 +29,6 @@
             </div>
         </div>
 
-
         <div class="checkbox" *ngIf="prop.type == 'checklist'">
             <p>
                 <strong>{{ prop.label }} - {{ prop.value|json }}</strong>
@@ -43,7 +42,6 @@
                 {{ prop.options[i].label }}
             </label>
         </div>
-
 
         <ng-template #hidden>
             <input [formControlName]="prop.name" [id]="prop.name" [type]="'hidden'">

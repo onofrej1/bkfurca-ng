@@ -1,12 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
-//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 let ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
-
-//declare var ClassicEditor: any;
-//declare var CKEDITOR: any;
 
 @Component({
   selector: 'dynamic-form',
@@ -21,8 +18,10 @@ export class DynamicFormComponent implements OnInit {
   @Output()
   handleForm = new EventEmitter();
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor() { }
 
+  ngOnInit() {
+    // setup the form
   }
 
   ngAfterViewInit() {
@@ -66,10 +65,6 @@ export class DynamicFormComponent implements OnInit {
       controls.push(new FormControl(value));
     }
     return controls;
-  }
-
-  ngOnInit() {
-    // setup the form
   }
 
   private mapValidators(validators) {

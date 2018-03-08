@@ -7,7 +7,7 @@ import { CrudService } from './crud.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { CrudComponent } from './crud/crud.component';
+import { CrudComponent } from './admin/crud/crud.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { AdminHeaderComponent } from './admin/header/header.component';
 import { AdminSidebarComponent } from './admin/sidebar/sidebar.component';

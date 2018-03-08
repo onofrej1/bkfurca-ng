@@ -9,6 +9,7 @@ import { CrudService } from './../../crud.service';
 export class AdminSidebarComponent implements OnInit {
 
   @Input() models;
+  @Input() components;
   crud: CrudService;
   protected modelNames: string[];
 
@@ -22,8 +23,11 @@ export class AdminSidebarComponent implements OnInit {
 
   setModel(modelName: string) {
     this.crud.setModelName(modelName);
-
     //this.crud.getModelName().subscribe(modelName => { console.log(modelName)});
+  }
+
+  setContent(component) {
+    console.log('content', component);
   }
 
 }

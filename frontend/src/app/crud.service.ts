@@ -13,10 +13,12 @@ export class CrudService {
   private data = new Subject<any[]>();
   private fields = new Subject<any[]>();
 
+  private baseUrl = 'http://localhost:1337/api/';
+
   setModelName(modelName: string) {
     this.modelName.next(modelName);
     this.fetchData(modelName);
-    this.fetchFields(modelName);
+    //this.fetchFields(modelName);
   }
 
   getModelName(): Observable<string> {
@@ -26,35 +28,38 @@ export class CrudService {
   public getModels() {
     return models;
   }
-  
+
   public getData(): Observable<any[]> {
     return this.data.asObservable();
   }
 
-  public getFields(): Observable<any[]> {
+  /*public getFields(): Observable<any[]> {
     return this.fields.asObservable();
   }
 
   public fetchFields(modelName: string) {
-    const url: string = 'http://localhost:1337/api/' + modelName +'/fields';
+    const url: string = this.baseUrl + modelName + '/fields';
+    
     return this.http.get<any[]>(url).subscribe(data => this.fields.next(data));
-  }
+  }*/
 
   public fetchOptions(modelName: string) {
-    const url: string = 'http://localhost:1337/api/' + modelName;
+    const url: string = this.baseUrl + modelName;
+
     return this.http.get<any[]>(url);
   }
 
   public fetchData(modelName: string) {
-    const url: string = 'http://localhost:1337/api/' + modelName;
+    const url: string = this.baseUrl + modelName;
+
     return this.http.get<any[]>(url).subscribe(data => this.data.next(data));
   }
 
   public save(modelName: string, model: any) {
     let method = model.id ? 'put' : 'post';
-    console.log(model);
-    let param = model.id ? '/'+model.id : ''; 
-    const url: string = 'http://localhost:1337/api/' + modelName + param;
+    let param = model.id ? '/' + model.id : '';
+    const url: string = this.baseUrl + modelName + param;
+
     return this.http[method](url, model);
   }
 

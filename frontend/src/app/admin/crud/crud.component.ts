@@ -12,11 +12,10 @@ export class CrudComponent implements OnInit {
   crud: CrudService;
   data: any[];
   fields: any[];
-  options: {};
   fieldsNames: string[];
   models: {};
   modelName: string;
-  model;
+  model: any;
   row: null;
   form = [];
   list = [];
@@ -26,23 +25,20 @@ export class CrudComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.models = this.crud.getModels();
+    //this.model = this.models[modelName];
     this.crud.getData().subscribe(data => {
       this.data = data;
     });
 
-    this.crud.getFields().subscribe(data => {
-      //this.fields = data;
-      this.fieldsNames = Object.keys(data);
-    });
-
     this.crud.getModelName().subscribe(modelName => {
       this.modelName = modelName;
+      
       this.model = this.models[modelName];
+      console.log(this.model);
       this.row = null;
       this.getList();
     });
-
-    this.models = this.crud.getModels();
   }
 
   private getForm(row) {
@@ -71,7 +67,8 @@ export class CrudComponent implements OnInit {
   }
 
   getList() {
-    this.list = this.model.list || [];
+    this.list = this.model ? this.model.list : [];
+    console.log(this.model.list);
   }
 
   handleForm(values) {

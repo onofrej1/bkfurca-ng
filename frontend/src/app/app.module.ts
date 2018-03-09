@@ -18,11 +18,13 @@ import { SidebarLayoutComponent } from './sidebar-layout/sidebar-layout.componen
 import { FooterComponent } from './footer/footer.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { BoxComponent } from './admin/box/box.component';
+import { MediaManagerComponent } from './admin/media-manager/media-manager.component';
 //import { DynamicFormComponent } from './form/dynamic-form/dynamic-form.component';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: '', component: HomeComponent },
+  //{ path: 'xxx', component: MediaManagerComponent },
   { path: 'crud', component: CrudComponent },
   { path: 'articles', component: ArticlesComponent },
 ];
@@ -43,6 +45,7 @@ const appRoutes: Routes = [
     FooterComponent,
     DynamicFormComponent,
     BoxComponent,
+    MediaManagerComponent,
     
     //DynamicFormComponent,
     
@@ -56,6 +59,7 @@ const appRoutes: Routes = [
       //{ enableTracing: true } // <-- debugging purposes only
     )
   ],
+  entryComponents: [ MediaManagerComponent, CrudComponent ],
   providers: [CrudService],
   bootstrap: [AppComponent]
 })

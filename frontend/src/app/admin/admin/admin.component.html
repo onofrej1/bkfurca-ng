@@ -1,15 +1,16 @@
 <div class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <admin-header></admin-header>
-        <admin-sidebar [models]="models" [components]="components"></admin-sidebar>
+        <admin-sidebar [models]="models" [components]="components" (changeContent)="changeContent($event)"></admin-sidebar>
 
         <div class="content-wrapper">
             <section class="content-header"></section>
             <section class="content">
 
                 <admin-box [header]="'header'">
-                    <admin-crud></admin-crud>
-                    <app-home></app-home>
+
+                    <template #content></template>
+
                 </admin-box>
             </section>
         </div>

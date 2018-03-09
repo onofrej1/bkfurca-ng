@@ -1,12 +1,13 @@
 <aside class="main-sidebar">
     <section class="sidebar">
         <ul class="sidebar-menu tree" data-widget="tree">
-            <li class="header">header</li>
+            <li class="header">Components</li>
             <li *ngFor="let component of components">
-                <a (click)="setContent(component)">
+                <a (click)="setContent(component.component)">
                     {{ component.menu }}
                 </a>
             </li>
+            <li class="header">Models</li>
             <li *ngFor="let model of modelNames">
                 <a (click)="setModel(model)">
                 {{ model }}

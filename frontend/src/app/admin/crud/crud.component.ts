@@ -54,6 +54,11 @@ export class CrudComponent implements OnInit {
       field = { value, ...prop };
       if (prop && prop.type == 'relation') {
         this.fetchOptions(prop);
+        field.type = 'select';
+      }
+
+      if (prop && prop.type == 'pivotRelation') {
+        this.fetchOptions(prop);
         field.type = 'checklist';
       }
       this.form.push(field);
@@ -62,7 +67,11 @@ export class CrudComponent implements OnInit {
 
   fetchOptions(field) {
     this.crud.fetchOptions(field.resourceTable).subscribe(data => {
-      let options = data.map(data => { return { value: data.id, label: data[field.show] } });
+      let options = data.map(data => { 
+        return { 
+          value: data.id, 
+          label: data[field.show]};
+      });
       this.form = this.form.map(f => f.name == field.name ? { ...f, options } : f);
     });
   }

@@ -17,58 +17,37 @@ const User = {
 const Article = {
   title: 'Articles',
   form: [
-    {name: 'title', type: 'text'},
-    {name: 'author', type: 'text'},
-    {name: 'content', type: 'editor'},
-    {
-      name: 'tags', 
-      type: 'relation', 
-      resourceTable: 'tag', 
-      multiple: true, 
-      show: 'title', 
-      label: 'Tags'},
+    { name: 'title', type: 'text' },
+    { name: 'author', type: 'text' },
+    { name: 'content', type: 'editor' },
+    { name: 'tags', type: 'pivotRelation', resourceTable: 'tag', show: 'title', label: 'Tags' },
   ],
   list: [
-    {field: 'title', label: 'Title'},
+    { field: 'title', label: 'Title' },
   ]
 }
 
 const MenuItem = {
   title: 'Menu',
-  form: {
-    menu_id: {
-      type: 'relation',
-      resourceTable: 'menu',
-      show: 'title',
-      label: 'Menu'
-    },
-    page_id: {
-      type: 'relation',
-      resourceTable: 'page',
-      label: 'Stranka',
-      show: 'title',
-    },
-    parent_id: {
-      type: 'relation',
-      resourceTable: 'menuItem',
-      show: 'title',
-      label: 'Parent'
-    },
-  },
-  list: {
-    
-  }
+  form: [
+    { name: 'title', type: 'text' },
+    { label: 'Menu', name: 'menu_id', type: 'relation', resourceTable: 'menu', show: 'title' },
+    { label: 'Page', name: 'page_id', type: 'relation', resourceTable: 'page', show: 'title' },
+
+  ],
+  list: [
+    { field: 'title', label: 'Title', render: (row) => `<div>${row.title}</div>` }
+  ],
 }
 
 const Page = {
   title: "Pages",
   form: [
-    { label: 'title', name: 'title', type: 'text'},
-    { type: "editor", label: "Body", rows: 8, name: 'body'},
+    { label: 'title', name: 'title', type: 'text' },
+    { type: "editor", label: "Body", rows: 8, name: 'body' },
   ],
   list: [
-    {field: 'title', label: 'Title', render: (row) => `<div>${row.title} xx</div>`},
-    {field: 'body', label: 'Body'}
+    { field: 'title', label: 'Title', render: (row) => `<div>${row.title}</div>` }
   ],
 };
 
@@ -79,13 +58,13 @@ const Hamburg = {
       type: 'datetime'
     },
     notes: {
-      type:'textarea',
+      type: 'textarea',
       rows: 7
     }
   }
 };
 
-const Tag = { title: 'Tags'};
+const Tag = { title: 'Tags' };
 
 const models = { User, Page, Tag, Article, MenuItem, Hamburg };
 

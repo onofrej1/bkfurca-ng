@@ -27,10 +27,7 @@ export class AdminSidebarComponent implements OnInit {
 
   setModel(modelName: string) {
     
-    this.changeContent.emit(CrudComponent);
-    setTimeout(function() {
-        
-    }, 1500);
+    //this.changeContent.emit(CrudComponent);
     this.crud.setModelName(modelName);
     
     //this.crud.getModelName().subscribe(modelName => { console.log(modelName)});

@@ -9,21 +9,10 @@ export class CrudService {
 
   constructor(private http: HttpClient) { }
 
-  private modelName = new Subject<string>();
   private data = new Subject<any[]>();
   private fields = new Subject<any[]>();
 
   private baseUrl = 'http://localhost:1337/api/';
-
-  setModelName(modelName: string) {
-    this.modelName.next(modelName);
-    this.fetchData(modelName);
-    //this.fetchFields(modelName);
-  }
-
-  getModelName(): Observable<string> {
-    return this.modelName.asObservable();
-  }
 
   public getModels() {
     return models;
@@ -32,16 +21,6 @@ export class CrudService {
   public getData(): Observable<any[]> {
     return this.data.asObservable();
   }
-
-  /*public getFields(): Observable<any[]> {
-    return this.fields.asObservable();
-  }
-
-  public fetchFields(modelName: string) {
-    const url: string = this.baseUrl + modelName + '/fields';
-    
-    return this.http.get<any[]>(url).subscribe(data => this.fields.next(data));
-  }*/
 
   public fetchOptions(modelName: string) {
     const url: string = this.baseUrl + modelName;

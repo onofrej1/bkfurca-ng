@@ -25,7 +25,8 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: '', component: HomeComponent },
   //{ path: 'xxx', component: MediaManagerComponent },
-  { path: 'crud', component: CrudComponent },
+  { path: 'crud/:model', component: CrudComponent },
+  { path: 'manager', component: MediaManagerComponent },
   { path: 'articles', component: ArticlesComponent },
 ];
 

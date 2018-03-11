@@ -3,6 +3,8 @@ import { CrudService } from './../../crud.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
+let moment = require('moment');
+
 @Component({
   selector: 'admin-crud',
   templateUrl: './crud.component.html',
@@ -52,15 +54,21 @@ export class CrudComponent implements OnInit {
       let name = prop.name;
       let value = row[name] instanceof Array ? row[name].map(v => v.id) : row[name];
       field = { value, ...prop };
+
       if (prop && prop.type == 'relation') {
         this.fetchOptions(prop);
         field.type = 'select';
+      }
+
+      if (prop && prop.type == 'datepicker') {
+          field.value = moment(row[name]).format('DD.MM.YYYY');
       }
 
       if (prop && prop.type == 'pivotRelation') {
         this.fetchOptions(prop);
         field.type = 'checklist';
       }
+
       this.form.push(field);
     }
   }

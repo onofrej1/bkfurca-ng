@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
-
+import {CalendarModule} from 'primeng/calendar';
 
 let ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
 

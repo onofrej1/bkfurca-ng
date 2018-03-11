@@ -4,7 +4,7 @@
             <label [attr.for]="prop.name">{{ prop.label || prop.name }}</label>
 
             <div [ngSwitch]="prop.type">
-                <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.name" [id]="prop.name" [type]="prop.inputType">
+                <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.name" [id]="prop.name" [type]="prop.inputType || 'text'">
 
                 <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
@@ -26,6 +26,8 @@
                         [value]="option.value"> 
                     </label>
                 </div>
+
+                <p-calendar *ngSwitchCase="'datepicker'" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [formControlName]="prop.name" dateFormat="dd.mm.yy"></p-calendar>
             </div>
         </div>
 

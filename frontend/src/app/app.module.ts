@@ -19,6 +19,11 @@ import { FooterComponent } from './footer/footer.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { BoxComponent } from './admin/box/box.component';
 import { MediaManagerComponent } from './admin/media-manager/media-manager.component';
+import {CalendarModule} from 'primeng/calendar';
+import { FormsModule } from '@angular/forms';
+import {ButtonModule} from 'primeng/button';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 //import { DynamicFormComponent } from './form/dynamic-form/dynamic-form.component';
 
 const appRoutes: Routes = [
@@ -47,7 +52,7 @@ const appRoutes: Routes = [
     DynamicFormComponent,
     BoxComponent,
     MediaManagerComponent,
-    
+   
     //DynamicFormComponent,
     
   ],
@@ -55,6 +60,10 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    CalendarModule,
+    ButtonModule,
+    FormsModule,
     RouterModule.forRoot(
       appRoutes,
       //{ enableTracing: true } // <-- debugging purposes only

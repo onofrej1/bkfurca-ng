@@ -22,7 +22,7 @@
                                 <span [innerHtml]="row[field.field]"></span>
                             </ng-template>
                         </td>
-                        <td>
+                        <td class="pull-right">
                             <button (click)="setRow(row)" class="btn btn-sm btn-default">
                         <i class="fas fa-edit"></i> Edit
                     </button>
@@ -35,6 +35,6 @@
             </table>
         </div>
 
-        <dynamic-form *ngIf="row" [dataObject]="form" (handleForm)="handleForm($event)"></dynamic-form>
+        <dynamic-form *ngIf="row" [dataObject]="form" (cancel)="cancel()" (handleForm)="handleForm($event)"></dynamic-form>
     </admin-box>
 </app-admin>

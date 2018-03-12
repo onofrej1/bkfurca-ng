@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CrudService } from './crud.service';
+import { FileService } from './file.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -70,7 +71,7 @@ const appRoutes: Routes = [
     )
   ],
   entryComponents: [ MediaManagerComponent, CrudComponent ],
-  providers: [CrudService],
+  providers: [CrudService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

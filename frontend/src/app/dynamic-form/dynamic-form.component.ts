@@ -18,6 +18,9 @@ export class DynamicFormComponent implements OnInit {
   @Output()
   handleForm = new EventEmitter();
 
+  @Output()
+  cancel = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
@@ -92,6 +95,10 @@ export class DynamicFormComponent implements OnInit {
     }
     //console.log(values);
     this.handleForm.emit(values);
+  }
+
+  cancelSubmit() {
+    this.cancel.emit();
   }
 
   getOptionValues(key, values) {

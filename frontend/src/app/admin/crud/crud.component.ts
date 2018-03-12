@@ -35,15 +35,16 @@ export class CrudComponent implements OnInit {
 
       this.model = this.models[this.modelName];
       this.list = this.model.list;
-      this.crud.fetchData(this.modelName);
+      this.fetchData();
 
       this.row = null;
     });
+  }
 
-    this.crud.getData().subscribe(data => {
+  fetchData() {
+    this.crud.fetchData(this.modelName).subscribe(data => {
       this.data = data;
     });
-
   }
 
   private buildForm(row) {
@@ -61,7 +62,7 @@ export class CrudComponent implements OnInit {
       }
 
       if (prop && prop.type == 'datepicker') {
-          field.value = moment(row[name]).format('DD.MM.YYYY');
+        field.value = moment(row[name]).format('DD.MM.YYYY');
       }
 
       if (prop && prop.type == 'pivotRelation') {
@@ -73,12 +74,17 @@ export class CrudComponent implements OnInit {
     }
   }
 
+  cancel() {
+    this.row = null;
+  }
+
   fetchOptions(field) {
     this.crud.fetchOptions(field.resourceTable).subscribe(data => {
-      let options = data.map(data => { 
-        return { 
-          value: data.id, 
-          label: data[field.show]};
+      let options = data.map(data => {
+        return {
+          value: data.id,
+          label: data[field.show]
+        };
       });
       this.form = this.form.map(f => f.name == field.name ? { ...f, options } : f);
     });
@@ -86,7 +92,7 @@ export class CrudComponent implements OnInit {
 
   handleForm(values) {
     this.crud.save(this.modelName, values).subscribe(model => {
-      this.crud.fetchData(this.modelName);
+      this.fetchData();
       this.row = null;
     }, error => console.log('error', error));
 

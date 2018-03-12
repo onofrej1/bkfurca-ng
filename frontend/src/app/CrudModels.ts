@@ -1,17 +1,15 @@
 
 const User = {
   title: 'Users',
-  form: {
-    password: 'hidden',
-    roles: {
-      type: 'pivotRelation',
-      resourceTable: 'role',
-      show: 'title',
-    }
-  },
-  list: {
-    password: 'hidden'
-  }
+  form: [
+    { name: 'name', type: 'text' },
+    { name: 'email', type: 'text' },
+    { name: 'roles', type: 'pivotRelation', resourceTable: 'role', show: 'title', label: 'Roles' },
+  ],
+  list: [
+    { field: 'name', label: 'Name' },
+    { field: 'email', label: 'Email' },
+  ]
 }
 
 const Article = {

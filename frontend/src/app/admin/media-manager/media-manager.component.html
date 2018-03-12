@@ -1,7 +1,49 @@
 <app-admin>
     <admin-box [header]="'Media manager'">
-        <p>
-            media-manager works!
-        </p>
+        <div class="row">
+            <div class="col-md-3">
+                <div *ngFor="let file of files">
+                    <button class="btn btn-link">
+                       <i class="far fa-folder-open"></i> {{ file.name }}
+                    </button>
+
+                    <ng-container *ngTemplateOutlet="files; context:{ $implicit: file.children }"></ng-container>
+                    <ng-template #files let-children>
+
+                        <div *ngFor="let file of children" style="margin-left:25px">
+                            <ng-container *ngIf="file.type == 'folder'">
+                                <i class="fas fa-folder-open"></i>
+                                <button class="btn btn-link" (click)="setCurrentDir(file)">
+                                     {{ file.name }}
+                                </button>
+                                <div *ngIf="file.children">
+                                    <ng-container *ngTemplateOutlet="files; context:{ $implicit: file.children }"></ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="flex-container" *ngIf="currentDirectory">
+
+                    <div class="card" *ngFor="let file of currentDirectory.children">
+                        <div class="card-body">
+                            <img [src]="file.src" width="100%" *ngIf="isImage(file) else other">
+                            <ng-template #other>
+                                <i class="fas fa-folder fa-2x"></i>
+                            </ng-template>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text">{{ file.name }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </admin-box>
 </app-admin>

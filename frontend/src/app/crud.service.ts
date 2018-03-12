@@ -9,7 +9,7 @@ export class CrudService {
 
   constructor(private http: HttpClient) { }
 
-  private data = new Subject<any[]>();
+  //private data = new Subject<any[]>();
   private fields = new Subject<any[]>();
 
   private baseUrl = 'http://localhost:1337/api/';
@@ -18,9 +18,9 @@ export class CrudService {
     return models;
   }
 
-  public getData(): Observable<any[]> {
+  /*public getData(): Observable<any[]> {
     return this.data.asObservable();
-  }
+  }*/
 
   public fetchOptions(modelName: string) {
     const url: string = this.baseUrl + modelName;
@@ -31,7 +31,7 @@ export class CrudService {
   public fetchData(modelName: string) {
     const url: string = this.baseUrl + modelName;
 
-    return this.http.get<any[]>(url).subscribe(data => this.data.next(data));
+    return this.http.get<any[]>(url); //.subscribe(data => this.data.next(data));
   }
 
   public save(modelName: string, model: any) {

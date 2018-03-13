@@ -17,7 +17,7 @@ export class FileService {
   getFiles() {
     const url: string = this.baseUrl + '/files';
 
-    return this.http.post<any[]>(url, {path: './public/media'});
+    return this.http.post<any[]>(url, {path: './frontend/src/assets/media'});
   }
 
 }

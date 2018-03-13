@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChang
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import {CalendarModule} from 'primeng/calendar';
+import Manager from './Manager';
 
 let ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
 
@@ -33,7 +34,10 @@ export class DynamicFormComponent implements OnInit {
 
   initCkeditorInputs() {
     Array.from(document.querySelectorAll('.editor')).forEach(el => {
-      ClassicEditor.create(el).then(editor => {
+      ClassicEditor.create(el, {
+        plugins: [ Manager ],
+        toolbar: [ 'bold', 'italic', 'insertImage' ]
+      }).then(editor => {
         editor.document.on('change', (eventInfo, name, value, oldValue) => {
           this.form.patchValue({ [editor.element.id]: editor.getData() });
         });

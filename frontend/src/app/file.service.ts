@@ -12,8 +12,6 @@ export class FileService {
 
   private baseUrl = 'http://localhost:1337';
 
-  
-
   getFiles() {
     const url: string = this.baseUrl + '/files';
 

@@ -2,9 +2,22 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChang
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import {CalendarModule} from 'primeng/calendar';
-import Manager from './Manager';
+import Manager from './Manager.js';
 
-let ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
+//import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+// import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+
+import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
+//import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+
+
+//import Editor from './editor.js';
+let Editor = require('./editor.js');
+
+//declare var aaa: Editor;
+// let Essentials = require('@ckeditor/ckeditor5-essentials/src/essentials.js');
+//let Bold = require('@ckeditor/ckeditor5-basic-styles');
+
 
 @Component({
   selector: 'dynamic-form',
@@ -25,6 +38,7 @@ export class DynamicFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(Editor);
     // setup the form
   }
 
@@ -34,10 +48,11 @@ export class DynamicFormComponent implements OnInit {
 
   initCkeditorInputs() {
     Array.from(document.querySelectorAll('.editor')).forEach(el => {
-      ClassicEditor.create(el, {
-        plugins: [ Manager ],
-        toolbar: [ 'bold', 'italic', 'insertImage' ]
+      Editor.create(el, {
+        //plugins: [ Bold ],
+        toolbar: [ 'bold' ],
       }).then(editor => {
+        console.log('ok');
         editor.document.on('change', (eventInfo, name, value, oldValue) => {
           this.form.patchValue({ [editor.element.id]: editor.getData() });
         });

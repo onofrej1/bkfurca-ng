@@ -1,4 +1,6 @@
-import {Plugin} from '@ckeditor/ckeditor5-core/src/plugin';
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+
+//declare var Plugin = Plugin;
 
 export default class Manager extends Plugin {
 
@@ -6,3 +8,4 @@ export default class Manager extends Plugin {
         console.log( 'InsertImage was initialized' );
     }
 }
+

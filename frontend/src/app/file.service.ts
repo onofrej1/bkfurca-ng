@@ -12,10 +12,10 @@ export class FileService {
 
   private baseUrl = 'http://localhost:1337';
 
-  getFiles() {
+  getFiles(path) {
     const url: string = this.baseUrl + '/files';
 
-    return this.http.post<any[]>(url, {path: './frontend/src/assets/media'});
+    return this.http.post<Object>(url, {path});
   }
 
 }

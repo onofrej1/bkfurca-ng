@@ -14,7 +14,7 @@ export class MediaManagerComponent implements OnInit {
   constructor(private fileService: FileService) { }
 
   ngOnInit() {
-    this.fileService.getFiles().subscribe(files => {
+    this.fileService.getFiles('./frontend/src/assets/media').subscribe(files => {
       this.files = [files];
       console.log(files);
     });

@@ -1,8 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 import Manager from './Manager.js';
+import { FileService } from './../file.service';
+
 
 //import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 // import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
@@ -10,6 +12,7 @@ import Manager from './Manager.js';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 //import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 
+declare var tinymce: any;
 
 //import Editor from './editor.js';
 let Editor = require('./editor.js');
@@ -26,6 +29,8 @@ let Editor = require('./editor.js');
 })
 export class DynamicFormComponent implements OnInit {
 
+  imageList: any;
+
   @Input() dataObject;
   form: FormGroup;
 
@@ -35,19 +40,44 @@ export class DynamicFormComponent implements OnInit {
   @Output()
   cancel = new EventEmitter();
 
-  constructor() { }
+  constructor(private fileService: FileService) { }
 
   ngOnInit() {
     console.log(Editor);
+    this.initTinymce();
     // setup the form
   }
 
+  initTinymce() {
+    let form = this.form;
+    this.fileService.getFiles('./frontend/src/assets/media/clanky').subscribe(
+      (files: { children: Array<any> }) => {
+        this.imageList = files.children.map(f => {
+          return { title: f.name, value: f.src };
+        });
+        
+        // menubar: false,
+      });
+  }
+
   ngAfterViewInit() {
-    this.initCkeditorInputs();
+    this.initTinymce();
+
+    tinymce.init({
+          selector: '.editor',
+          plugins: 'code image',
+          image_list: [],//this.imageList,
+          init_instance_callback: function (editor) {
+            editor.on('change', function (e) {
+              //form.patchValue({ [e.target.id]: e.level.content });
+            });
+          }
+        });
+    //is.initCkeditorInputs();
   }
 
   initCkeditorInputs() {
-    Array.from(document.querySelectorAll('.editor')).forEach(el => {
+    /*Array.from(document.querySelectorAll('.editor')).forEach(el => {
       Editor.create(el, {
         //plugins: [ Bold ],
         toolbar: [ 'bold' ],
@@ -60,7 +90,7 @@ export class DynamicFormComponent implements OnInit {
         .catch(error => {
           console.error('error', error);
         });
-    })
+    })*/
   }
 
   ngOnChanges(changes: SimpleChanges) {

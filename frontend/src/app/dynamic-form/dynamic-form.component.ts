@@ -5,6 +5,8 @@ import { CalendarModule } from 'primeng/calendar';
 import Manager from './Manager.js';
 import { FileService } from './../file.service';
 
+//let ClassicEditor = require('@ckeditor/ckeditor5-editor-classic/src/classiceditor.js');
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor.js';
 
 //import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 // import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
@@ -15,11 +17,12 @@ import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 declare var tinymce: any;
 
 //import Editor from './editor.js';
-let Editor = require('./editor.js');
+//import Editor from './editor.js';
 
-//declare var aaa: Editor;
+//declare var ClassicEditor: any;
 // let Essentials = require('@ckeditor/ckeditor5-essentials/src/essentials.js');
 //let Bold = require('@ckeditor/ckeditor5-basic-styles');
+//window["Bold"] = Bold;
 
 
 @Component({
@@ -43,9 +46,7 @@ export class DynamicFormComponent implements OnInit {
   constructor(private fileService: FileService) { }
 
   ngOnInit() {
-    console.log(Editor);
-    this.initTinymce();
-    // setup the form
+    //console.log(Editor);
   }
 
   initTinymce() {
@@ -55,32 +56,31 @@ export class DynamicFormComponent implements OnInit {
         this.imageList = files.children.map(f => {
           return { title: f.name, value: f.src };
         });
-        
-        // menubar: false,
+
+        tinymce.remove();
+        tinymce.init({
+          selector: '.editor',
+          plugins: 'code image',
+          image_list: this.imageList,
+          init_instance_callback: function (editor) {
+            editor.on('change', function (e) {
+              form.patchValue({ [e.target.id]: e.level.content });
+            });
+          }
+        });
       });
   }
 
   ngAfterViewInit() {
-    this.initTinymce();
-
-    tinymce.init({
-          selector: '.editor',
-          plugins: 'code image',
-          image_list: [],//this.imageList,
-          init_instance_callback: function (editor) {
-            editor.on('change', function (e) {
-              //form.patchValue({ [e.target.id]: e.level.content });
-            });
-          }
-        });
-    //is.initCkeditorInputs();
+    //this.initTinymce();
+    this.initCkeditorInputs();
   }
 
   initCkeditorInputs() {
-    /*Array.from(document.querySelectorAll('.editor')).forEach(el => {
-      Editor.create(el, {
+    Array.from(document.querySelectorAll('.editor')).forEach(el => {
+      ClassicEditor.create(el, {
         //plugins: [ Bold ],
-        toolbar: [ 'bold' ],
+        //toolbar: [ 'bold' ],
       }).then(editor => {
         console.log('ok');
         editor.document.on('change', (eventInfo, name, value, oldValue) => {
@@ -90,7 +90,7 @@ export class DynamicFormComponent implements OnInit {
         .catch(error => {
           console.error('error', error);
         });
-    })*/
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -157,6 +157,10 @@ export class DynamicFormComponent implements OnInit {
       value ? options.push(obj.options[i].value) : null;
     })
     return options;
+  }
+
+  ngOnDestroy() {
+
   }
 
 }

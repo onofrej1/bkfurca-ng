@@ -49,5 +49,6 @@ Editor.build = {
             ]
         },
         language: 'en'
-    }
+    },
+    skin: '@ckeditor/ckeditor5-lark',
 };

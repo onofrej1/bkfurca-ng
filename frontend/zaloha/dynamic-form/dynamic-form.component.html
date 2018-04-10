@@ -8,21 +8,23 @@
 
                 <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
-                <p-editor *ngSwitchCase="'editor'" [formControlName]="prop.name" [style]="{'height':'320px'}"></p-editor>
-                <textarea *ngSwitchCase="'editorxxx'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.name" [id]="prop.name"></textarea>
+                <textarea *ngSwitchCase="'editor'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
                 <div *ngSwitchCase="'select'">
                     <select [formControlName]="prop.name" class="form-control">
-            <option *ngFor="let option of prop.options" [value]="option.value">
-              {{option.label}}
-            </option>
-          </select>
+                        <option *ngFor="let option of prop.options" [value]="option.value">
+                            {{option.label}}     
+                        </option>
+                    </select>
                 </div>
 
                 <div *ngSwitchCase="'radio'">
                     <label *ngFor="let option of prop.options">
-            <input type="radio" [formControlName]="prop.name" [value]="option.value">
-          </label>
+                        <input
+                        type="radio"
+                        [formControlName]="prop.name"
+                        [value]="option.value"> 
+                    </label>
                 </div>
 
                 <p-calendar *ngSwitchCase="'datepicker'" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [formControlName]="prop.name" dateFormat="dd.mm.yy"></p-calendar>
@@ -34,8 +36,13 @@
                 <strong>{{ prop.label }} - {{ prop.value|json }}</strong>
             </p>
             <label class="col-md-4" *ngFor="let ctrl of form.controls[prop.name].controls; let i = index">
-        <input type="checkbox" [formControl]="ctrl" class="form-check-input" /> {{ prop.options[i].label }}
-      </label>
+                <input
+                    type="checkbox"
+                    [formControl]="ctrl"
+                    class="form-check-input"
+                />
+                {{ prop.options[i].label }}
+            </label>
         </div>
 
         <ng-template #hidden>

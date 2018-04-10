@@ -24,6 +24,7 @@ import {CalendarModule} from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import {ButtonModule} from 'primeng/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {EditorModule} from 'primeng/editor';
 
 //import { DynamicFormComponent } from './form/dynamic-form/dynamic-form.component';
 
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
     CalendarModule,
     ButtonModule,
     FormsModule,
+    EditorModule,
     RouterModule.forRoot(
       appRoutes,
       //{ enableTracing: true } // <-- debugging purposes only

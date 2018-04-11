@@ -22,6 +22,7 @@ const Article = {
   ],
   list: [
     { field: 'title', label: 'Title' },
+    { field: 'author', label: 'Author' },
   ]
 }
 
@@ -34,7 +35,7 @@ const MenuItem = {
     { label: 'Parent', name: 'parent_id', type: 'relation', resourceTable: 'menuItem', show: 'title' },
   ],
   list: [
-    { field: 'title', label: 'Title', render: (row) => `<div>${row.title}</div>` }
+    { field: 'title', label: 'Title', render: (row) => `<div>${row.title} ddd</div>` }
   ],
 }
 

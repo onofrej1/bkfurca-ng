@@ -1,51 +1,49 @@
 <form novalidate (ngSubmit)="onSubmit(form.value)" [formGroup]="form">
-    <ng-container *ngFor="let prop of dataObject">
-        <div class="form-group" *ngIf="prop.type != 'hidden' else hidden">
-            <label [attr.for]="prop.name">{{ prop.label || prop.name }}</label>
+  <ng-container *ngFor="let prop of dataObject">
+    <div class="form-group" *ngIf="prop.type != 'hidden' else hidden">
+      <label [attr.for]="prop.name"><strong>{{ prop.label || prop.name }}</strong></label>
 
-            <div [ngSwitch]="prop.type">
-                <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.name" [id]="prop.name" [type]="prop.inputType || 'text'">
+      <div [ngSwitch]="prop.type">
+        <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.name" [id]="prop.name" [type]="prop.inputType || 'text'">
 
-                <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.name" [id]="prop.name"></textarea>
+        <textarea *ngSwitchCase="'textarea'" [rows]="prop.rows || 5" class="form-control" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
-                <p-editor *ngSwitchCase="'editor'" [formControlName]="prop.name" [style]="{'height':'320px'}"></p-editor>
-                <textarea *ngSwitchCase="'editorxxx'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.name" [id]="prop.name"></textarea>
+        <p-editor *ngSwitchCase="'editor'" [formControlName]="prop.name" [style]="{'height':'320px'}"></p-editor>
+        <textarea *ngSwitchCase="'editorxxx'" [rows]="prop.rows || 5" class="form-control editor" [formControlName]="prop.name" [id]="prop.name"></textarea>
 
-                <div *ngSwitchCase="'select'">
-                    <select [formControlName]="prop.name" class="form-control">
+        <div *ngSwitchCase="'select'">
+          <select [formControlName]="prop.name" class="form-control">
             <option *ngFor="let option of prop.options" [value]="option.value">
               {{option.label}}
             </option>
           </select>
-                </div>
+        </div>
 
-                <div *ngSwitchCase="'radio'">
-                    <label *ngFor="let option of prop.options">
+        <div *ngSwitchCase="'radio'">
+          <label *ngFor="let option of prop.options">
             <input type="radio" [formControlName]="prop.name" [value]="option.value">
           </label>
-                </div>
-
-                <p-calendar *ngSwitchCase="'datepicker'" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [formControlName]="prop.name" dateFormat="dd.mm.yy"></p-calendar>
-            </div>
         </div>
 
-        <div class="checkbox" *ngIf="prop.type == 'checklist'">
-            <p>
-                <strong>{{ prop.label }} - {{ prop.value|json }}</strong>
-            </p>
-            <label class="col-md-4" *ngFor="let ctrl of form.controls[prop.name].controls; let i = index">
+        <p-calendar *ngSwitchCase="'datepicker'" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [formControlName]="prop.name"
+          dateFormat="dd.mm.yy"></p-calendar>
+      </div>
+    </div>
+
+    <div class="checkbox" *ngIf="prop.type == 'checklist'">      
+      <label class="col-md-4" *ngFor="let ctrl of form.controls[prop.name].controls; let i = index">
         <input type="checkbox" [formControl]="ctrl" class="form-check-input" /> {{ prop.options[i].label }}
       </label>
-        </div>
+    </div>
 
-        <ng-template #hidden>
-            <input [formControlName]="prop.name" [id]="prop.name" [type]="'hidden'">
-        </ng-template>
+    <ng-template #hidden>
+      <input [formControlName]="prop.name" [id]="prop.name" [type]="'hidden'">
+    </ng-template>
 
-    </ng-container>
+  </ng-container>
 
-    <p>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button class="btn btn-default" (click)="cancelSubmit()">Cancel</button>
-    </p>
+  <p>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button class="btn btn-default" (click)="cancelSubmit()">Cancel</button>
+  </p>
 </form>

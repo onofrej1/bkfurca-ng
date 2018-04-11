@@ -7,7 +7,7 @@ let moment = require('moment');
 
 @Component({
   selector: 'admin-crud',
-  templateUrl: './crud.component.html',  
+  templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.css'],
 
   //changeDetection: ChangeDetectionStrategy.Default

@@ -22,9 +22,10 @@ import { BoxComponent } from './admin/box/box.component';
 import { MediaManagerComponent } from './admin/media-manager/media-manager.component';
 import {CalendarModule} from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
-import {ButtonModule} from 'primeng/button';
+import {ButtonModule, PanelModule} from 'primeng/primeng';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EditorModule} from 'primeng/editor';
+import {DataTableModule} from 'primeng/datatable';
 
 //import { DynamicFormComponent } from './form/dynamic-form/dynamic-form.component';
 
@@ -67,6 +68,8 @@ const appRoutes: Routes = [
     ButtonModule,
     FormsModule,
     EditorModule,
+    DataTableModule,
+    PanelModule,
     RouterModule.forRoot(
       appRoutes,
       //{ enableTracing: true } // <-- debugging purposes only

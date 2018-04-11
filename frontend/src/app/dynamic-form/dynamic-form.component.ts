@@ -5,32 +5,12 @@ import { CalendarModule } from 'primeng/calendar';
 import Manager from './Manager.js';
 import { FileService } from './../file.service';
 
-//let ClassicEditor = require('@ckeditor/ckeditor5-editor-classic/src/classiceditor.js');
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor.js';
-
-//import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-// import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-//import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-
-declare var tinymce: any;
-
-//import Editor from './editor.js';
-//import Editor from './editor.js';
-
-//declare var ClassicEditor: any;
-// let Essentials = require('@ckeditor/ckeditor5-essentials/src/essentials.js');
-//let Bold = require('@ckeditor/ckeditor5-basic-styles');
-//window["Bold"] = Bold;
-
-
 @Component({
   selector: 'dynamic-form',
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.css']
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormComponent {
 
   imageList: any;
 
@@ -44,55 +24,7 @@ export class DynamicFormComponent implements OnInit {
   cancel = new EventEmitter();
 
   constructor(private fileService: FileService) { }
-
-  ngOnInit() {
-    //console.log(Editor);
-  }
-
-  initTinymce() {
-    let form = this.form;
-    this.fileService.getFiles('./frontend/src/assets/media/clanky').subscribe(
-      (files: { children: Array<any> }) => {
-        this.imageList = files.children.map(f => {
-          return { title: f.name, value: f.src };
-        });
-
-        tinymce.remove();
-        tinymce.init({
-          selector: '.editor',
-          plugins: 'code image',
-          image_list: this.imageList,
-          init_instance_callback: function (editor) {
-            editor.on('change', function (e) {
-              form.patchValue({ [e.target.id]: e.level.content });
-            });
-          }
-        });
-      });
-  }
-
-  ngAfterViewInit() {
-    //this.initTinymce();
-    this.initCkeditorInputs();
-  }
-
-  initCkeditorInputs() {
-    Array.from(document.querySelectorAll('.editor')).forEach(el => {
-      ClassicEditor.create(el, {
-        //plugins: [ Bold ],
-        //toolbar: [ 'bold' ],
-      }).then(editor => {
-        console.log('ok');
-        editor.document.on('change', (eventInfo, name, value, oldValue) => {
-          this.form.patchValue({ [editor.element.id]: editor.getData() });
-        });
-      })
-        .catch(error => {
-          console.error('error', error);
-        });
-    })
-  }
-
+    
   ngOnChanges(changes: SimpleChanges) {
     const formGroup = {};
 
@@ -141,8 +73,7 @@ export class DynamicFormComponent implements OnInit {
       if (values[key] instanceof Array && values[key].every(v => typeof v === 'boolean')) {
         values[key] = this.getOptionValues(key, values);
       }
-    }
-    //console.log(values);
+    }    
     this.handleForm.emit(values);
   }
 
@@ -157,10 +88,5 @@ export class DynamicFormComponent implements OnInit {
       value ? options.push(obj.options[i].value) : null;
     })
     return options;
-  }
-
-  ngOnDestroy() {
-
-  }
-
+  }  
 }

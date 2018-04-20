@@ -1,40 +1,38 @@
+<admin>
 
-<app-admin>
-    
-  <div class="row justify-content-center">
-    <div [class]="!row ? 'col-md-10' : 'col-md-6'">
-      <admin-box [header]="'header'">
-        <div *ngIf="!row">
-          <button (click)="setRow({})" class="btn btn-flat btn-sm btn-default margin-bottom">
-            <i class="fa fa-plus-square"></i> Add new
-          </button>
+    <div class="row justify-content-center">
+        <div [class]="!row ? 'col-md-12' : 'col-md-8'">
+            <admin-box [header]="'header'">
+                <div *ngIf="!row">
+                    <button (click)="setRow({})" class="btn btn-flat btn-sm btn-default margin-bottom">
+                      <i class="fa fa-plus-square"></i> Add new
+                    </button>
 
-          
-          <p-dataTable [value]="data" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[5,10,20]">
-            <p-column *ngFor="let field of list" [field]="field.field" [header]="field.label">
-              <ng-template let-col let-row="rowData" let-ri="rowIndex" pTemplate="body">
-                <span *ngIf="field.render else fieldTemplate" [innerHtml]="field.render(row)"></span>
-                <ng-template #fieldTemplate>
-                  <span [innerHtml]="row[field.field]"></span>
-                </ng-template>
-              </ng-template>
-            </p-column>
-            <p-column field="id" header="Action">
-              <ng-template let-col let-row="rowData" let-ri="rowIndex" pTemplate="body">
-                <div class="text-center">
-                  <p-button (onClick)="setRow(row)" icon="fa fa-edit"  label="Edit" styleClass="ui-button-primary">
-                  </p-button>
-                  <p-button (onClick)="setRow(row)" icon="fa fa-edit" label="Delete" styleClass="ui-button-danger">
-                    </p-button>                  
+                    <p-dataTable [value]="data" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[5,10,20]">
+                        <p-column *ngFor="let field of list" [field]="field.field" [header]="field.label">
+                            <ng-template let-col let-row="rowData" let-ri="rowIndex" pTemplate="body">
+                                <span *ngIf="field.render else fieldTemplate" [innerHtml]="field.render(row)"></span>
+                                <ng-template #fieldTemplate>
+                                    <span [innerHtml]="row[field.field]"></span>
+                                </ng-template>
+                            </ng-template>
+                        </p-column>
+                        <p-column field="id" header="Action">
+                            <ng-template let-col let-row="rowData" let-ri="rowIndex" pTemplate="body">
+                                <div class="text-center">
+                                    <p-button (onClick)="setRow(row)" icon="fa fa-edit" label="Edit" styleClass="ui-button-secondary">
+                                    </p-button>
+                                    <p-button (onClick)="setRow(row)" icon="fa fa-edit" label="Delete" styleClass="ui-button-danger">
+                                    </p-button>
+                                </div>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
                 </div>
-              </ng-template>
-            </p-column>
-          </p-dataTable>
+
+                <app-dynamic-form *ngIf="row" [dataObject]="form" (cancel)="cancel()" (handleForm)="handleForm($event)"></app-dynamic-form>
+            </admin-box>
         </div>
-
-        <dynamic-form *ngIf="row" [dataObject]="form" (cancel)="cancel()" (handleForm)="handleForm($event)"></dynamic-form>
-      </admin-box>
     </div>
-  </div>
 
-</app-admin>
+</admin>

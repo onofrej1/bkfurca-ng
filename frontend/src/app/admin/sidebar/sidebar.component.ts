@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CrudService } from './../../crud.service';
-import { CrudComponent } from './../crud/crud.component';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { CrudService } from "./../../crud.service";
+import { CrudComponent } from "./../crud/crud.component";
 
 @Component({
-  selector: 'admin-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  selector: "admin-sidebar",
+  templateUrl: "./sidebar.component.html",
+  styleUrls: ["./sidebar.component.css"]
 })
-export class AdminSidebarComponent implements OnInit {
-
+export class SidebarComponent implements OnInit {
   @Input() models;
   @Input() components;
   crud: CrudService;
@@ -21,5 +20,4 @@ export class AdminSidebarComponent implements OnInit {
   ngOnInit() {
     this.modelNames = Object.keys(this.models);
   }
-
 }

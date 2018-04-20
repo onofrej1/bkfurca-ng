@@ -20,15 +20,19 @@ import { ButtonModule, PanelModule } from "primeng/primeng";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { EditorModule } from "primeng/editor";
 import { DataTableModule } from "primeng/datatable";
+import { MenubarModule } from "primeng/menubar";
+import { MenuItem } from "primeng/api";
 
 import { AdminModule } from "./admin/admin.module";
+import { PageComponent } from './page/page.component';
 
 //import { DynamicFormComponent } from './form/dynamic-form/dynamic-form.component';
 
 const appRoutes: Routes = [
   { path: "", component: HomeComponent },
   //{ path: 'xxx', component: MediaManagerComponent },
-  { path: "articles", component: ArticlesComponent }
+  { path: "articles", component: ArticlesComponent },
+  { path: "page/:id", component: PageComponent }
 ];
 
 @NgModule({
@@ -39,6 +43,7 @@ const appRoutes: Routes = [
     HomeComponent,
     SidebarLayoutComponent,
     FooterComponent,
+    PageComponent
     //DynamicFormComponent
   ],
   imports: [
@@ -48,6 +53,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CalendarModule,
     ButtonModule,
+    MenubarModule,
     FormsModule,
     EditorModule,
     DataTableModule,

@@ -1,10 +1,10 @@
-import { Component, OnInit} from '@angular/core';
-import { CrudService } from './../../crud.service';
+import { Component, OnInit } from "@angular/core";
+import { CrudService } from "./../../crud.service";
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: "admin",
+  templateUrl: "./admin.component.html",
+  styleUrls: ["./admin.component.css"]
 })
 export class AdminComponent {
   models: {};

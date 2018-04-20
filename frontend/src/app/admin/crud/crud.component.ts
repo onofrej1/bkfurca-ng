@@ -1,19 +1,26 @@
-import { Component, SimpleChanges, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ApplicationRef } from '@angular/core';
-import { CrudService } from './../../crud.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
+import {
+  ViewEncapsulation,
+  Component,
+  SimpleChanges,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ApplicationRef
+} from "@angular/core";
+import { CrudService } from "./../../crud.service";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
+import "rxjs/add/operator/switchMap";
 
-let moment = require('moment');
+let moment = require("moment");
 
 @Component({
-  selector: 'admin-crud',
-  templateUrl: './crud.component.html',  
-  styleUrls: ['./crud.component.css'],
-
+  selector: "admin-crud",
+  templateUrl: "./crud.component.html",
+  styleUrls: ["./crud.component.css"],
+  encapsulation: ViewEncapsulation.None
   //changeDetection: ChangeDetectionStrategy.Default
 })
 export class CrudComponent implements OnInit {
-
   objectKeys = Object.keys;
   crud: CrudService;
   data: any[];
@@ -24,14 +31,18 @@ export class CrudComponent implements OnInit {
   form = [];
   list = [];
 
-  constructor(crud: CrudService, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    crud: CrudService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.crud = crud;
   }
 
   ngOnInit() {
     this.models = this.crud.getModels();
     this.route.params.subscribe(params => {
-      this.modelName = params['model'];
+      this.modelName = params["model"];
 
       this.model = this.models[this.modelName];
       this.list = this.model.list;
@@ -48,26 +59,27 @@ export class CrudComponent implements OnInit {
   }
 
   private buildForm(row) {
-    this.form = [{ name: 'id', value: row.id, type: 'hidden' }];
+    this.form = [{ name: "id", value: row.id, type: "hidden" }];
     let field;
 
     for (let prop of this.model.form) {
       let name = prop.name;
-      let value = row[name] instanceof Array ? row[name].map(v => v.id) : row[name];
+      let value =
+        row[name] instanceof Array ? row[name].map(v => v.id) : row[name];
       field = { value, ...prop };
 
-      if (prop && prop.type == 'relation') {
+      if (prop && prop.type == "relation") {
         this.fetchOptions(prop);
-        field.type = 'select';
+        field.type = "select";
       }
 
-      if (prop && prop.type == 'datepicker') {
-        field.value = moment(row[name]).format('DD.MM.YYYY');
+      if (prop && prop.type == "datepicker") {
+        field.value = moment(row[name]).format("DD.MM.YYYY");
       }
 
-      if (prop && prop.type == 'pivotRelation') {
+      if (prop && prop.type == "pivotRelation") {
         this.fetchOptions(prop);
-        field.type = 'checklist';
+        field.type = "checklist";
       }
 
       this.form.push(field);
@@ -86,22 +98,26 @@ export class CrudComponent implements OnInit {
           label: data[field.show]
         };
       });
-      this.form = this.form.map(f => f.name == field.name ? { ...f, options } : f);
+      this.form = this.form.map(
+        f => (f.name == field.name ? { ...f, options } : f)
+      );
     });
   }
 
   handleForm(values) {
-    this.crud.save(this.modelName, values).subscribe(model => {
-      this.fetchData();
-      this.row = null;
-    }, error => console.log('error', error));
+    this.crud.save(this.modelName, values).subscribe(
+      model => {
+        this.fetchData();
+        this.row = null;
+      },
+      error => console.log("error", error)
+    );
 
-    console.log('handle', values);
+    console.log("handle", values);
   }
 
   setRow(row: any) {
     this.row = row;
     this.buildForm(row);
   }
-
 }

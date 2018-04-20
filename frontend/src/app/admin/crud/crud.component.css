@@ -1,8 +1,8 @@
-.ui-datatable-data {
+.ui-datatable-data table {
     border: none !important;
     border-style: none !important;
 }
 
 .ui-datatable table {
-	table-layout: auto !important;
+    table-layout: auto !important;
 }

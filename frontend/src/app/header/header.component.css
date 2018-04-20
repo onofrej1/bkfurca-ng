@@ -1,0 +1,21 @@
+.ui-menubar,
+.ui-menubar-list,
+.ui-submenu,
+.ui-submenu-list {
+    background: #343a40 !important;
+}
+
+.ui-menubar {
+    text-align: center;
+}
+
+.ui-submenu-list {
+    text-align: left;
+}
+
+.ui-menuitem-text,
+.ui-menuitem-icon,
+.ui-submenu-icon,
+.ui-menuitem-list {
+    color: rgba(255, 255, 255, 0.5) !important;
+}

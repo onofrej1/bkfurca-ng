@@ -17,11 +17,9 @@ export class PageComponent implements OnInit {
     this.route.params.subscribe(params => {
       let pageId = params["id"];
       this.crud.fetchData('page').subscribe(data => {
-        this.page = data.find(page => page.id == pageId);
-        console.log(this.page);
-        //this.data = data;
+        this.page = data.find(page => page.id == pageId);        
       });
-    }
+    })
   }
 
 }

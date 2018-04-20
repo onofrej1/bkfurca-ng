@@ -31,7 +31,7 @@ import { PageComponent } from './page/page.component';
 const appRoutes: Routes = [
   { path: "", component: HomeComponent },
   //{ path: 'xxx', component: MediaManagerComponent },
-  { path: "articles", component: ArticlesComponent },
+  { path: "clanky", component: ArticlesComponent },
   { path: "page/:id", component: PageComponent }
 ];
 

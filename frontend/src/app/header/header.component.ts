@@ -3,58 +3,50 @@ import { MenuItem } from "primeng/api";
 import { CrudService } from "../crud.service";
 
 @Component({
-  selector: "header",
+  selector: "app-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.css"],
   encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
-  constructor(private crud: CrudService) {}
+  constructor(private crud: CrudService) { }
 
   private items: MenuItem[];
   private menuTree: Object[] = [];
 
   ngOnInit() {
-    //let menuTree = [];
-    let menuTree = this.menuTree;
-
     this.crud.fetchData("menuItem").subscribe(data => {
       console.log(data);
-      console.log(this.menuTree);
-      for (let i in data) {
-        let menuItem = data[i];
-        let items = data.filter(i => i.parent_id === menuItem.id);
-
-        let item = {
-          label: menuItem.title
-        };
-        this.menuTree.push(item);
-        //console.log(this.menuTree);
+      let menuItems = data.filter(i => !i.parent_id);
+      for (let i in menuItems) {
+        let menuItem = menuItems[i];
+        let items = data.filter(i => i.parent_id === menuItem.id)
+          .map(item => this.createMenuItem(item));
+        this.menuTree.push(this.createMenuItem(menuItem, items));
       }
     });
+  }
 
-    this.items = [
-      {
-        label: "File",
-        items: [
-          { label: "New", icon: "fa-plus", routerLink: ["/page/2"] },
-          { label: "Open", icon: "fa-download" },
-          {
-            label: "aaa",
-            items: [
-              { label: "New", icon: "fa-plus" },
-              { label: "Open", icon: "fa-download" }
-            ]
-          }
-        ]
-      },
-      {
-        label: "Edit",
-        items: [
-          { label: "Undo", icon: "fa-refresh" },
-          { label: "Redo", icon: "fa-repeat" }
-        ]
+  createMenuItem(menuItem, subItems = []) {
+    let item;
+    item = {
+      label: menuItem.title,
+    };
+    if (subItems.length > 0) {
+      item.items = subItems;
+    }
+    if (menuItem.page_id) {
+      item.routerLink = ["/page/" + menuItem.page_id];
+    } else if(menuItem.link) {
+      let isExternalLink = /^https?:\/\//.test(menuItem.link);
+
+      if (isExternalLink) {
+        item.url = menuItem.link;        
+      } else {        
+        item.routerLink = [menuItem.link];
       }
-    ];
+    }
+
+    return item;
   }
 }

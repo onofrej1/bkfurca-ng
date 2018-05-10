@@ -33,9 +33,10 @@ const MenuItem = {
     { label: 'Menu', name: 'menu_id', type: 'relation', resourceTable: 'menu', show: 'title' },
     { label: 'Page', name: 'page_id', type: 'relation', resourceTable: 'page', show: 'title' },
     { label: 'Parent', name: 'parent_id', type: 'relation', resourceTable: 'menuItem', show: 'title' },
+    { label: 'Link', name: 'link', type: 'text'}
   ],
   list: [
-    { field: 'title', label: 'Title', render: (row) => `<div>${row.title} ddd</div>` }
+    { field: 'title', label: 'Title', render: (row) => `<div>${row.title}</div>` }
   ],
 }
 

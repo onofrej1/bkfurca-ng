@@ -9,13 +9,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       parent_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
       page_id: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
       link: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: true,
       }
     },
     {

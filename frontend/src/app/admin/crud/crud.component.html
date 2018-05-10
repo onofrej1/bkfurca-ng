@@ -1,12 +1,12 @@
 <admin>
-
+    ee
     <div class="row justify-content-center">
         <div [class]="!row ? 'col-md-12' : 'col-md-8'">
             <admin-box [header]="'header'">
                 <div *ngIf="!row">
                     <button (click)="setRow({})" class="btn btn-flat btn-sm btn-default margin-bottom">
-                      <i class="fa fa-plus-square"></i> Add new
-                    </button>
+            <i class="fa fa-plus-square"></i> Add new
+          </button>
 
                     <p-dataTable [value]="data" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[5,10,20]">
                         <p-column *ngFor="let field of list" [field]="field.field" [header]="field.label">

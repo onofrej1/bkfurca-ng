@@ -7,10 +7,7 @@
         "root": "src",
         "outDir": "dist",
         "deployUrl": "http://localhost:4200",
-        "assets": [
-            "assets",
-            "favicon.ico"
-        ],
+        "assets": ["assets", "favicon.ico"],
         "index": "index.html",
         "main": "main.ts",
         "polyfills": "polyfills.ts",
@@ -23,20 +20,20 @@
             "../node_modules/font-awesome/css/font-awesome.min.css",
             "../node_modules/primeng/resources/themes/omega/theme.css",
             "../node_modules/primeng/resources/primeng.min.css",
-	        "../node_modules/quill/dist/quill.core.css", 
+            "../node_modules/quill/dist/quill.core.css",
             "../node_modules/quill/dist/quill.snow.css",
-	    "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+            "../node_modules/bootstrap/dist/css/bootstrap.min.css"
         ],
         "scripts": [
             "../node_modules/jquery/dist/jquery.min.js",
             "../node_modules/quill/dist/quill.js",
             "../node_modules/bootstrap/dist/js/bootstrap.min.js"
-
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {
             "dev": "environments/environment.ts",
-            "prod": "environments/environment.prod.ts"
+            "prod": "environments/environment.prod.ts",
+            "hmr": "environments/environment.hmr.ts"
         }
     }],
     "e2e": {

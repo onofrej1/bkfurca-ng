@@ -21,7 +21,8 @@ export class PageComponent implements OnInit {
         console.log(this.page);
         //this.data = data;
       });
-    }
+    })
   }
+  
 
 }
